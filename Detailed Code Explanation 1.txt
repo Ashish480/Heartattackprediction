@@ -1,0 +1,414 @@
+DETAILED CODE EXPLANATION PART 1
+
+____________________________________________________________________________________________________________________________________________________
+Data Preprocessing Report
+
+1.Description of the Dataset****
+    Initial data shape: (303, 14)
+    Missing values per column: (0 for all columns)
+    Missing values have been filled with the mean of their respective columns
+    datasetdf.info()  =  Prints concise summary of the dataset including number of non-null values and data types
+    df.describe()    =   Prints descriptive statistics of the dataset including count, mean, std deviation, min, max, etc 
+    correlation Matrix (corr())   =   Prints the correlation matrix of numerical columns using df.corr() showing how each variable correlates with others.
+-----------------------------------------------------------------------------------------------------------
+
+2.Outlier Detection and Removal using Z-Score method****
+    (i)Z-score Method for Outlier Detection:
+            detect_outliers_zscore(data, threshold=3): A function that calculates the Z-scores for each numeric column in the dataset (data). It identifies outliers 
+            based on a specified threshold (default is 3 standard deviations from the mean).
+            z_scores = np.abs((data - data.mean()) / data.std()): Calculates the Z-scores by taking the absolute difference between each data point and its mean,  
+            divided by the standard deviation.
+            outliers = (z_scores > threshold).sum(): Counts the number of outliers where the Z-score exceeds the specified threshold.
+    
+    (ii)Detect and Report Outliers:
+            numeric_columns = df.select_dtypes(include=[np.number]).columns    =   Selects only numeric columns from the DataFrame df and Iterates over each numeric  
+            column (col) in numeric_columns.
+            outliers=detect_outliers_zscore(df[col])  =   Calls detect_outliers_zscore to detect outliers in the current column (col) and prints the count of outliers.
+
+    (iii)Remove Outliers:
+            df=df[(np.abs((df[numeric_columns] - df[numeric_columns].mean()) / df[numeric_columns].std()) <= 3).all(axis=1)]   =   Computes the Z-scores for all 
+            numeric columns (numeric_columns) in the DataFrame df.
+            Filters the DataFrame to exclude rows where any numeric column has a Z-score greater than 3 standard deviations from the mean.
+            Updates df with the filtered data.
+            print("Data shape after removing outliers:", df.shape)  =    Prints the shape of the DataFrame after removing outliers, indicating how many rows and  
+            columns remain.
+-----------------------------------------------------------------------------------------------------------------------------
+3.Data Normalization****
+    (i)Check Columns in Dataset:
+            print("Columns in the dataset:", df.columns)  =  Prints the column names of the DataFrame df, allowing verification of dataset structure.
+    (ii)Check First Few Rows:
+            print(df.head())  =  Displays the first few rows of df to inspect the data and ensure column names and initial data entries appear as expected.
+    (iii)Separate Target Column:
+            target_column='output'  =   Specifies the target variable name.
+            output = df[target_column]   =   Stores the target variable (often the output or label) separately.
+            df = df.drop(columns=[target_column])  =  Removes the target column from the DataFrame df, preparing the remaining data for preprocessing.
+    (iv)Identify Categorical and Numeric Columns:
+            categorical_columns = df.select_dtypes(exclude=[np.number]).columns  =  Identifies columns containing categorical data (non-numeric).
+            numeric_columns=df.select_dtypes(include=[np.number]).columns  =  Identifies columns containing numeric data. 
+    (v)Normalize Numeric Columns:
+            scaler=StandardScaler() =  Initializes a StandardScaler object for standardizing numeric features.
+            df_normalized=pd.DataFrame(scaler.fit_transform(df[numeric_columns]), columns=numeric_columns)  = Applies standardization to numeric columns  
+            (numeric_columns) using fit_transform, then creates a new DataFrame (df_normalized) with standardized numeric data and original column names.
+    (vi)Combine Normalized and Categorical Data:
+            df_normalized[categorical_columns]=df[categorical_columns].reset_index(drop=True)  =  Temporarily combines normalized numeric data (df_normalized) with 
+            original categorical data (df[categorical_columns]), resetting the index to ensure alignment.
+    (vii)Report After Normalization:
+            print("Data preview after normalization:\n", df_normalized.head())   =   Prints a preview of the data (df_normalized) after normalization, displaying the 
+            first few rows to verify the preprocessing steps have been applied correctly.
+----------------------------------------------------------------------------------------------------------------------------------
+4.Data Encoding***
+   
+    (i)Encode Categorical Variables:
+           encoder = OneHotEncoder(sparse=False, drop='first'): Initializes a OneHotEncoder object to convert categorical variables into binary encoded columns.
+           encoded_categorical = encoder.fit_transform(df[categorical_columns]): Applies the encoding to the categorical columns (categorical_columns) of DataFrame df.
+           encoded_df = pd.DataFrame(encoded_categorical, columns=encoder.get_feature_names_out(categorical_columns)): Creates a new DataFrame (encoded_df) with the             
+           encoded categorical variables and assigns meaningful column names using get_feature_names_out.
+    (ii)Combine Encoded Categorical Data with Normalized Data:
+           df_final = pd.concat([df_normalized[numeric_columns], encoded_df], axis=1): Concatenates the normalized numeric data (df_normalized[numeric_columns]) with 
+           the encoded categorical data (encoded_df) along columns (axis=1), creating the final processed DataFrame df_final.
+    (iii)Add Target Column Back:
+           df_final[target_column] = output.reset_index(drop=True): Adds the original target column (output) back to df_final after resetting its index to ensure
+           alignment.
+    (iv)Check Columns in df_final:
+           print("Columns in df_final:", df_final.columns): Prints the column names of df_final to verify that the target column ('output') is included. 
+     (v)Report After Encoding:
+           print("Data preview after encoding:\n", df_final.head())  =   Displays a preview of df_final after encoding and combining, showing the first few rows to 
+           confirm  the encoding and merging processes.
+           print("Final data shape:", df_final.shape)   =  Prints the shape (dimensions) of df_final, indicating the number of rows and columns in the final processed 
+           dataset
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+Summary:
+
+The preprocessing steps performed on the Heartattack.csv dataset ensured data integrity and prepares the dataset for further analysis. The descriptive statistics and correlation analysis provide insights into the dataset's characteristics which will guide us into further steps such as feature selection or model 
+
+________________________________________________________________________________________________________________________________________________________
+
+Knowledge Representation:
+
+1.Distribution of Heart attack risk ****
+   (i)Plot Size and Setup:
+        plt.figure(figsize=(10, 6)) = This sets the size of the plot to 10 inches wide and 6 inches tall.
+   (ii)Count Plot:
+        ax = sns.countplot(x='output', data=df_final) = This creates a count plot using Seaborn where the x-axis represents the 'output' column from dataset. The count 
+        plot displays the number of occurrences for each category in the 'output' column.
+   (iii)Title and Labels:
+        plt.title('Distribution of Heart Attack Risk') = Adds a title to the plot.
+        plt.xlabel('Heart Attack Risk') = Labels the x-axis
+        plt.ylabel('Population') = Labels the y-axis
+   (iv)Custom X-axis Ticks:
+        plt.xticks([0, 1], ['Lesser Chance of Heartattack', 'More Chance of Heartattack']) = Customizes the labels on the x-axis to replacing 0 and 1 with 'Lesser  
+        Chance of Heartattack' and 'More Chance of Heartattack', respectively.
+   (v)Annotations:
+        plt.text(...) = Adds a text annotation inside the plot. It describes the axes and provides context about what the x-axis and y-axis represent. The text is 
+        placed at a specific position using transform=ax.transAxes and is enclosed in a light gray box with some transparency (alpha=0.5).
+   (vi)Layout Adjustment:
+        plt.tight_layout() = Adjusts the layout to ensure that all plot elements fit within the figure area without overlapping.
+   (vii)Display Plot:
+        plt.show() = Displays the plot. 
+
+-------------------------------------------------------------------------------------------------------------
+
+2. Distribution of Age*****
+    (i)Plot Configuration:
+        plt.figure(figsize=(10, 6)) = Creates a figure with dimensions 10x6 inches for the plot.
+        plt.hist(df['age'], bins=range(20, 91, 5), color='skyblue', edgecolor='black') = Plots a histogram of ages ('age') with bins ranging from 20 to 90 in steps of 
+        width 5.
+   (ii)Labels and Title:
+        plt.title('Distribution of Age') = Sets the title of the plot as "Distribution of Age".
+        plt.xlabel('Age') = Sets the x-axis label to "Age".
+        plt.ylabel('Frequency') = Sets the y-axis label to "Frequency".
+   (iii)Annotations:
+        plt.text(0.02, 0.95, 'X-axis: Age\nY-axis: Frequency', ha='left', va='top', transform=plt.gca().transAxes, bbox=dict(facecolor='lightgray', alpha=0.5)) = Adds 
+        a text annotation inside the plot at position (0.02, 0.95) relative to the axes providing information about the axes and their meanings.
+   (iv)Display:
+        plt.show() = Displays the plot with the configured settings.
+
+------------------------------------------------------------------------------------------------------------------
+3.Age vs Cholesterol*****
+   (i)Ensure Data Type:
+        df['age'] = df['age'].astype(int) = Ensures that the 'age' column in the dataframe df is of integer type.
+   (ii)Plot Size and Setup:
+        plt.figure(figsize=(10, 6)) = Sets the size of the plot to 10 inches wide and 6 inches tall.
+   (iii)Scatter Plot:
+        plt.scatter(df['age'], df['chol'], alpha=0.5) = Creates a scatter plot of 'age' versus 'cholesterol' (chol) from the dataframe df. The alpha=0.5 parameter 
+        makes the points semi-transparent.
+   (iv)Title and Labels:
+        plt.title('Age vs Cholesterol') = Adds a title to the plot.
+        plt.xlabel('Age') = Labels the x-axis.
+        plt.ylabel('Cholesterol') = Labels the y-axis.
+   (v)Annotations:
+        plt.text(...)= Adds a text annotation inside the plot, describing what the x-axis and y-axis represent. The text is placed at the top-left corner of the plot 
+        using transform=plt.gca().transAxes and is enclosed in a light gray box with some transparency (alpha=0.5).
+   (vi)Display Plot:
+        plt.show() = Displays the plot.
+
+--------------------------------------------------------------------------------------------------------------------
+4.Correlation Matrix Heatmap****
+   (i)Plot Size and Setup:
+        plt.figure(figsize=(10, 8)) = Sets the size of the plot to 10 inches wide and 8 inches tall.
+  (ii)Heatmap:
+        sns.heatmap(df_final.corr(), annot=True, cmap='coolwarm', linewidths=.5):
+        df_final.corr() = Calculates the correlation matrix for the dataframe df_final. The correlation matrix shows the pairwise correlations between the numerical 
+        columns in the dataframe.
+        sns.heatmap(...) = (Creates a heatmap using Seaborn to visualize the correlation matrix)
+        annot=True = Annotates each cell in the heatmap with the numerical value of the correlation.
+        cmap='coolwarm' = Uses the 'coolwarm' colormap to represent the correlation values. Blue shades indicate negative correlations, and red shades indicate  
+        positive correlation.
+        linewidths=0.5 = Adds lines between the cells in the heatmap with a width of 0.5.
+  (iii)Title:
+        plt.title('Correlation Matrix Heatmap') = Adds a title to the heatmap.
+   (iv)Display Plot:
+        plt.show() = Displays the heatmap.
+
+--------------------------------------------------------------------------------------------------------------------
+5.Age vs Maximum Heart Rate Achieved
+
+   (i)Plot Size and Setup:
+        plt.figure(figsize=(10, 6)) = Sets the size of the plot to 10 inches wide and 6 inches tall.
+   (ii)Scatter Plot:
+        plt.scatter(df['age'], df['thalachh'], alpha=0.5):
+        df['age'] = Extracts the age column from the dataframe df for the x-axis.
+        df['thalachh'] = Extracts the thalachh column from the dataframe df for the y-axis.
+        alpha=0.5 = Sets the transparency of the points to 0.5 to help with visual clarity when points overlap.
+   (iii)Title and Labels:
+        plt.title('Age vs Maximum Heart Rate Achieved') = Adds a title to the scatter plot.
+        plt.xlabel('Age') = Labels the x-axis as "Age".
+        plt.ylabel('Maximum Heart Rate Achieved') = Labels the y-axis as "Maximum Heart Rate Achieved".
+   (iv)Annotation:
+        plt.text(0.02, 0.95, 'X-axis: Age\nY-axis: Max Heart Rate', ha='left', va='top', transform=plt.gca().transAxes, bbox=dict(facecolor='lightgray', alpha=0.5)):              
+       'X-axis: Age\nY-axis:Max Heart Rate'= Adds a text box inside the plot to annotate the x and y axes.  
+        0.02, 0.95 = Specifies the location of the text box as a fraction of the plot dimensions (2% from the left, 95% from the bottom).
+        ha='left', va='top' = Aligns the text box to the left and top.
+        transform=plt.gca().transAxes = Transforms the text position relative to the axis.
+        bbox=dict(facecolor='lightgray', alpha=0.5) = Sets the background color of the text box to light gray with 50% transparency.
+    (v)Display Plot:
+        plt.show()= Displays the scatter plot.
+
+-------------------------------------------------------------------------------------------------------------
+6.Correlation Matrix of Key Features*****
+     (i)Plot Size and Setup:
+        plt.figure(figsize=(10, 8)) = Sets the size of the plot to 10 inches wide and 8 inches tall.
+    (ii)Key Features Selection:
+        key_features = ['age', 'trtbps', 'chol', 'thalachh', 'output'] = Specifies a list of key features to include in the correlation matrix. These features are age,    
+        trtbps (resting blood pressure), chol (cholesterol), thalachh (maximum heart rate achieved), and output (heart attack risk indicator).
+    (iii)Heatmap:
+        sns.heatmap(df_final[key_features].corr(), annot=True, cmap='coolwarm', linewidths=.5):
+        df_final[key_features].corr() = Calculates the correlation matrix for the specified key features.
+        annot=True = Displays the correlation coefficients within the heatmap cells.
+        cmap='coolwarm' = Uses the 'coolwarm' colormap for visualizing the correlations.
+        linewidths=0.5 = Sets the width of the lines between the cells in the heatmap.
+    (iv)Title:
+        plt.title('Correlation Matrix of Key Features') = Adds a title to the heatmap.
+    (v)Annotation:
+        plt.text(0.02, 0.95, 'X-axis: Variables\nY-axis: Variables', ha='left', va='top', transform=plt.gca().transAxes, bbox=dict(facecolor='lightgray', alpha=0.5)):
+       'X-axis: Variables\nY-axis: Variables' = Adds a text box inside the plot to annotate the x and y axes.
+        0.02, 0.95 = Specifies the location of the text box as a fraction of the plot dimensions (2% from the left, 95% from the bottom).
+        ha='left', va='top' = Aligns the text box to the left and top.
+        transform=plt.gca().transAxes = Transforms the text position relative to the axis.
+        bbox=dict(facecolor='lightgray', alpha=0.5) = Sets the background color of the text box to light gray with 50% transparency.
+    (vi)Display Plot:
+        plt.show() = Displays the heatmap.
+--------------------------------------------------------------------------------------------------------------
+
+7a.Stacked Bar Chart of Chest Pain Types by Sex
+    (i)Plot Setup:
+        plt.figure(figsize=(14, 10)) = Sets the overall figure size to 14 inches wide and 10 inches tall.
+   (ii)Subplot 1: Stacked Bar Chart:
+        plt.subplot(1, 2, 1) = Creates a subplot grid with 1 row, 2 columns, and sets the current axis to the first subplot.
+   (iii)Data Preparation:
+        pd.crosstab(df['cp'], df['sex']) = Computes a cross-tabulation (contingency table) between df['cp'] (chest pain types) and df['sex'] (sex), which counts the 
+        occurrences of each combination.
+   (iv)Plotting:
+        plot(kind='bar', stacked=True, ax=plt.gca()) = Plots the cross-tabulation as a stacked bar chart on the current axis (ax=plt.gca()).
+        kind='bar' = Specifies the chart type as a bar chart.
+        stacked=True = Stacks the bars for each category (cp) to show the composition.
+        ax=plt.gca() = Uses the current axis for plotting.
+   (v)Title and Labels:
+        plt.title('Stacked Bar Chart of Chest Pain Types by Sex') = Sets the title of the subplot.
+        plt.xlabel('Chest Pain Type') = Labels the x-axis with 'Chest Pain Type'.
+        plt.ylabel('Count') = Labels the y-axis with 'Count'.
+        plt.xticks(rotation=0) = Rotates the x-axis labels to be horizontal (0 degrees).
+   (vi)Display Plot:
+        plt.tight_layout() = Adjusts the layout to prevent overlapping of subplots.
+        plt.show() = Displays the plot.
+
+-----------------------------------------------------------------------------------------------------------------
+
+7b.Proportion of Chest Pain Types*****
+   (i)Plot Setup:
+        plt.subplot(1, 2, 2) = Creates the second subplot in a grid of 1 row and 2 columns. This sets the current axis to the second subplot.
+   (ii)Data Preparation:
+        cp_counts = df['cp'].value_counts() = Counts the occurrences of each chest pain type (cp) in the DataFrame df and stores it in cp_counts.
+   (iii)Plotting:
+        plt.pie(cp_counts, labels=cp_counts.index, autopct='%1.1f%%', colors=sns.color_palette('viridis', len(cp_counts))):
+        cp_counts = The data array to plot, which contains counts of each chest pain type.
+        labels=cp_counts.index = Labels for each pie slice, which are the chest pain type indices.
+        autopct='%1.1f%%' = Format for displaying the percentage on each slice with one decimal place.
+        colors=sns.color_palette('viridis', len(cp_counts)) = Specifies colors for each pie slice using a Viridis color palette from Seaborn.
+   (iv)Title and Labels:
+        plt.title('Proportion of Chest Pain Types') = Sets the title of the pie chart.
+        plt.axis('equal') = Ensures the aspect ratio of the pie chart is equal, making it a circle.
+        plt.xticks() = Ensures x-axis ticks are default (horizontal), which is typically unnecessary for pie charts.
+    (v)Display Plot:
+        plt.tight_layout() = Adjusts the layout to prevent overlapping of subplots.
+        plt.show() = Displays the plot.
+
+---------------------------------------------------------------------------------------------------------------------
+8.Distribution of Cholesterol Levels******
+    (i)Plot Configuration:
+        plt.figure(figsize=(10, 6)) = Creates a figure with dimensions 10x6 inches for the plot.
+        plt.hist(df['chol'], bins=range(0, 451, 10), color='skyblue', edgecolor='black') = Plots a histogram of cholesterol levels ('chol') with bins ranging from 0 to 
+        450 in steps of 10.
+    (ii)Labels and Title:
+        plt.title('Distribution of Cholesterol Levels') = Sets the title of the plot as "Distribution of Cholesterol Levels".
+        plt.xlabel('Cholesterol Level') = Sets the x-axis label to "Cholesterol Level".
+        plt.ylabel('Frequency') = Sets the y-axis label to "Frequency".
+    (iii)Annotations:
+        plt.text(0.02, 0.95, 'X-axis: Cholesterol Level\nY-axis: Frequency', ha='left', va='top', transform=plt.gca().transAxes, bbox=dict(facecolor='lightgray', 
+        alpha=0.5)) = Adds a text annotation inside the plot at position (0.02, 0.95) relative to the axes, providing information about the axes and their meanings.
+    (iv)Display:
+        plt.show() = Displays the plot with the configured settings.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+9.Graph Representation of Key Relationships******
+    (i)Graph Creation:
+        G = nx.Graph() = Initializes an empty undirected graph using NetworkX.
+    (ii)Adding Edges:
+        edges=[('age', 'thalachh'), ('age', 'chol'), ('thalachh', 'output'), ('chol', 'output')] = Defines edges between nodes (variables) based on their correlations 
+        or relationships.
+        G.add_edges_from(edges) = Adds edges to the graph G based on the specified relationships.
+    (iii)Plot Setup:
+        plt.figure(figsize=(8, 6)) = Sets the figure size to 8 inches in width and 6 inches in height.
+    (iv)NetworkX Visualization:
+        nx.draw(G, with_labels=True, node_color='skyblue', node_size=2000, font_size=12, font_color='black', edge_color='gray'):
+        with_labels=True = Displays node labels (variable names) on the graph.
+        node_color='skyblue' = Sets the color of nodes to sky blue.
+        node_size=2000 = Sets the size of nodes to 2000 (larger nodes).
+        font_size=12 = Sets the font size of node labels to 12.
+        font_color='black' = Sets the color of node labels to black.
+        edge_color='gray' = Sets the color of edges (lines connecting nodes) to gray.
+    (v)Title and Annotations:
+        plt.title('Graph Representation of Key Relationships') = Sets the title of the plot to "Graph Representation of Key Relationships".
+        plt.text(0.02, 0.95, 'X-axis: Nodes\nY-axis: Nodes', ha='left', va='top', transform=plt.gca().transAxes, bbox=dict(facecolor='lightgray', alpha=0.5)):
+        'X-axis: Nodes\nY-axis: Nodes' = Adds text annotation to the plot, specifying the meaning of the x-axis and y-axis.
+        transform=plt.gca().transAxes = Transforms the coordinates to be relative to the axes (plot area).
+        bbox=dict(facecolor='lightgray', alpha=0.5) = Creates a light gray colored bounding box with transparency for the annotation.
+    (vi)Display Plot:
+        plt.show() = Displays the graph plot with the specified settings.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+10.Box plots for each column*******
+    (i)List Definition:
+        to_analyze=['age', 'trtbps', 'chol', 'thalachh'] = Defines a list of columns to analyze using box plots.
+   (ii)Iteration Over Columns:
+        for column in to_analyze = Loops through each column specified in the to_analyze list.
+   (iii)Column Existence Check:
+         if column in df.columns = Checks if the column exists in the DataFrame df.
+   (iv)Box Plot Generation:
+        df.boxplot(column=column, figsize=(8, 6)) = Creates a box plot for the specified column with a figure size of 8x6 inches.
+        plt.title(f'Box Plot of {column}') = Sets the title of the plot to "Box Plot of {column}".
+        plt.ylabel('Value') = Sets the y-axis label to "Value".
+        plt.show() = Displays the box plot.
+    (v)Column Not Found Handling:
+        else: print(f"Column {column} is not found in the DataFrame.") = Prints a message if the column is not found in the DataFrame.
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+11.Distribution of Cholesterol Level for Different Chances of Heart Attack******
+   (i)Dataset Loading:
+        df = pd.read_csv('/content/Heartattack.csv') = Loads the dataset Heartattack.csv into the DataFrame df.
+   (ii)Column Existence Check:
+        if 'chol' in df.columns and 'output' in df.columns = Checks if both 'chol' (cholesterol level) and 'output' (heart attack prediction) columns exist in the  
+        DataFrame.
+   (iii)Data Separation:
+        higher_chance = df[df['output'] == 1]['chol']= Filters rows where 'output' (heart attack prediction) is 1 (indicating higher chance of heart attack) and 
+        selects 'chol' column.
+        lower_chance = df[df['output'] == 0]['chol'] = Filters rows where 'output' is 0 (indicating lower chance of heart attack) and selects 'chol' column.
+   (iv)Plotting Configuration:
+        plt.figure(figsize=(12, 6)) = Creates a figure with a size of 12x6 inches.
+        sns.histplot(higher_chance, bins=range(100, 451, 10), stat='count', kde=True, color='red', label='Higher Chance of Heart Attack')= Plots a histogram of   
+        cholesterol levels for higher chance group with bins ranging from 100 to 450 in steps of 10, using 'count' statistic and overlaying a KDE plot.
+        sns.histplot(lower_chance, bins=range(100, 451, 10), stat='count', kde=True, color='blue', label='Lower Chance of Heart Attack')= Plots a histogram of 
+        cholesterol levels for lower chance group similarly with a different color and label.
+    (v)Labels and Legends:
+        plt.title('Distribution of Cholesterol Level for Different Chances of Heart Attack', fontsize=15) = Sets the title of the plot.
+        plt.xlabel('Cholesterol Level', fontsize=12) = Sets the x-axis label to "Cholesterol Level".
+        plt.ylabel('Count', fontsize=12) = Sets the y-axis label to "Count".
+        plt.legend() = Displays the legend with labels for higher and lower chance groups.
+    (vi)Display:
+        plt.show() = Shows the plot with the configured settings.
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+12.Distribution of Blood Pressure for Different Chances of Heart Attack*****
+    (i)Column Existence Check:
+        if 'trtbps' in df.columns and 'output' in df.columns= Checks if both 'trtbps' (resting blood pressure) and 'output' (heart attack prediction) columns exist in 
+        the DataFrame.
+   (ii)Data Separation:
+        higher_chance=df[df['output'] == 1]['trtbps'] = Filters rows where 'output' is 1 (indicating higher chance of heart attack) and selects the 'trtbps' column.
+        lower_chance=df[df['output'] == 0]['trtbps'] = Filters rows where 'output' is 0 (indicating lower chance of heart attack) and selects the 'trtbps' column.
+  (iii)Plotting Configuration:
+        plt.figure(figsize=(10, 6)) = Creates a figure with dimensions 10x6 inches.
+        sns.histplot(higher_chance, bins=range(75, 206, 5), kde=True, color='red', linewidth=2, label='Higher Chance of Heart Attack', stat='count') = Plots a 
+        histogram of blood pressure for the higher chance group with specified bins and overlays a KDE plot.
+        sns.histplot(lower_chance, bins=range(75, 206, 5), kde=False, color='blue', label='Lower Chance of Heart Attack', stat='count') = Plots a histogram of blood  
+        pressure for the lower chance group without KDE plot.
+   (iv)Labels and Legends:
+        plt.title('Distribution of Blood Pressure for Different Chances of Heart Attack', fontsize=15) = Sets the title of the plot.
+        plt.xlabel('Blood Pressure', fontsize=12) = Sets the x-axis label to "Blood Pressure".
+        plt.ylabel('Count', fontsize=12) = Sets the y-axis label to "Count".
+        plt.legend() = Displays the legend with labels for higher and lower chance groups.
+   (v)Display:
+        plt.show() = Displays the plot with the configured settings.
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+
+13.Distribution of Heart Rate for Different Chances of Heart Attack*****
+    (i)Column Existence Check:
+        Checks if both 'thalachh' (maximum heart rate achieved) and 'output' (heart attack prediction) columns exist in the DataFrame.
+   (ii)Data Separation:
+        higher_chance = df[df['output'] == 1]['thalachh'] = Filters rows where 'output' is 1 (indicating higher chance of heart attack) and selects 'thalachh' column.
+        lower_chance = df[df['output'] == 0]['thalachh'] = Filters rows where 'output' is 0 (indicating lower chance of heart attack) and selects 'thalachh' column.
+  (iii)Plotting Configuration:
+        plt.figure(figsize=(10, 6)) = Creates a figure with dimensions 10x6 inches for the plot.
+        sns.histplot(higher_chance, bins=range(65, 211, 5), kde=True, color='red', label='Higher Chance of Heart Attack', stat='count') = Plots a histogram of heart 
+        rates for individuals with higher chance of heart attack, with bins ranging from 65 to 210 in steps of 5, overlaying a KDE plot.
+        sns.histplot(lower_chance, bins=range(65, 211, 5), kde=True, color='blue', label='Lower Chance of Heart Attack', stat='count') = Plots a histogram of heart    
+        rates for individuals with lower chance of heart attack similarly, with a different color and label.
+   (iv)Labels and Legends:
+        plt.title('Distribution of Heart Rate for Different Chances of Heart Attack', fontsize=15) = Sets the title of the plot.
+        plt.xlabel('Heart Rate', fontsize=12) = Sets the x-axis label to "Heart Rate".
+        plt.ylabel('Count', fontsize=12) = Sets the y-axis label to "Count".
+        plt.legend() = Displays the legend with labels for higher and lower chance groups.
+   (v)Display:
+        plt.show()= Shows the plot with the configured settings.
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+14.Pair Plot of Key Variables*******
+   (i)Plot Configuration:
+        plt.figure(figsize=(12, 10)) = Creates a figure with dimensions 12x10 inches for the plot.
+  (ii)Pair Plot Generation:
+        sns.pairplot(df, vars=['age', 'trtbps', 'chol', 'thalachh'], hue='output') = Generates a pair plot matrix where:
+        vars=['age', 'trtbps', 'chol', 'thalachh'] = specifies the variables to include in the pair plot.
+        hue='output' = colors the data points based on the 'output' variable, which indicates the chance of a heart attack (higher or lower).
+  (iii)Labels and Title:
+        plt.suptitle('Pair Plot of Key Variables', y=1.02): Sets the main title of the plot with additional spacing (y=1.02) to avoid overlapping with subplot titles.
+   (iv)Display:
+        plt.show(): Displays the pair plot with the configured settings.
+
+Summary
+The knowledge representation techniques applied to the Heartattack.csv dataset aimed to provide a comprehensive view of its characteristics and relationships. Through descriptive statistics, we gained insights into the distribution and central tendencies of key variables such as age, cholesterol levels, and resting blood pressure. This allowed us to understand the dataset's numerical aspects in detail.
