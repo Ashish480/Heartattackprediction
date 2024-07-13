@@ -1,6 +1,7 @@
 PATTERN IDENTIFICATION REPORT
 
-Clustering Algorithum(2D)*****
+Clustering Algorithum(2D)****
+
       1.Importing Libraries:
             import pandas as pd = Imports the pandas library for data manipulation.
             from sklearn.cluster import KMeans = Imports KMeans from scikit-learn for clustering.
@@ -11,12 +12,15 @@ Clustering Algorithum(2D)*****
             df=pd.read_csv('/content/Heartattack.csv') = Loads the heart attack dataset into a pandas DataFrame from a CSV file.
 
       3.Selecting Features for Clustering:
-            features = ['age', 'trtbps', 'chol']: Selects the features 'age', 'trtbps' (resting blood pressure), and 'chol' (cholesterol level) for clustering.
+            features = ['age', 'trtbps', 'chol']: Selects the features 'age', 'trtbps' (resting blood pressure), and 'chol' 
+            (cholesterol level) for clustering.
             X=df[features] = Extracts the selected features into a new variable X.
 
       4.Applying K-Means Clustering:
-            kmeans = KMeans(n_clusters=4, random_state=42) = Initializes the KMeans algorithm with 4 clusters and a random state for reproducibility.
-            df['kmeans_cluster']=kmeans.fit_predict(X) = Fits the KMeans algorithm to the data in X and predicts the cluster for each data point, storing the results 
+            kmeans = KMeans(n_clusters=4, random_state=42) = Initializes the KMeans algorithm with 4 clusters and a random state for 
+            reproducibility.
+            df['kmeans_cluster']=kmeans.fit_predict(X) = Fits the KMeans algorithm to the data in X and predicts the cluster for each 
+            data point, storing the results 
             in a new column kmeans_cluster in the DataFrame.
 
       5.Plotting the Clusters:
@@ -24,7 +28,8 @@ Clustering Algorithum(2D)*****
                   (i)Plot Configuration:
                          plt.figure(figsize=(12, 8)) = Creates a figure with dimensions 12x8 inches for the scatter plot.
                   (ii)Scatter Plot Generation:
-                         sns.scatterplot(x='age', y='chol', hue='kmeans_cluster', palette='viridis', data=df, s=100) = Generates a scatter plot where:
+                         sns.scatterplot(x='age', y='chol', hue='kmeans_cluster', palette='viridis', data=df, s=100) = Generates a 
+                         scatter plot where:
                          x='age' = Sets the x-axis to 'age'.
                          y='chol' = Sets the y-axis to 'cholesterol level'.
                          hue='kmeans_cluster'= Colors the data points based on their cluster labels.
@@ -43,7 +48,8 @@ Clustering Algorithum(2D)*****
                  (i)Plot Configuration:
                          plt.figure(figsize=(12, 8)) = Creates a figure with dimensions 12x8 inches for the scatter plot.
                 (ii)Scatter Plot Generation:
-                         sns.scatterplot(x='trtbps', y='chol', hue='kmeans_cluster', palette='viridis', data=df, s=100) = Generates a scatter plot where:
+                         sns.scatterplot(x='trtbps', y='chol', hue='kmeans_cluster', palette='viridis', data=df, s=100) = Generates a 
+                         scatter plot where:
                          x='trtbps' = Sets the x-axis to 'resting blood pressure'.
                          y='chol' = Sets the y-axis to 'cholesterol level'.
                          hue='kmeans_cluster' = Colors the data points based on their cluster labels.
@@ -71,7 +77,8 @@ Clustering Algorithum(3D)*******
            df=pd.read_csv('/content/Heartattack.csv')   =   Loads the heart attack dataset into a pandas DataFrame from a CSV file.
 
      3.Function Definition for K-Means Clustering:
-           def perform_kmeans_clustering(features, full_forms, n_clusters=3)   =    Defines a function named perform_kmeans_clustering that takes features (list of 
+           def perform_kmeans_clustering(features, full_forms, n_clusters=3)   =    Defines a function named perform_kmeans_clustering 
+           that takes features (list of 
            feature names),full_forms   (list of full forms of feature names), and n_clusters (number of clusters) as arguments.
 
      4.Inside the Function:
@@ -79,26 +86,34 @@ Clustering Algorithum(3D)*******
            X = df[features]    =    Extracts the selected features from the DataFrame into a new variable X.
 
      5.Applying K-Means Clustering:
-           kmeans=KMeans(n_clusters=n_clusters, random_state=42)   =   Initializes the KMeans algorithm with the specified number of clusters and a random state for 
+           kmeans=KMeans(n_clusters=n_clusters, random_state=42)   =   Initializes the KMeans algorithm with the specified number of 
+           clusters and a random state for 
            reproducibility.
-           df['kmeans_cluster']=kmeans.fit_predict(X)   =  Fits the KMeans algorithm to the data in X and predicts the cluster for each data point, storing the results 
+           df['kmeans_cluster']=kmeans.fit_predict(X)   =  Fits the KMeans algorithm to the data in X and predicts the cluster for each 
+           data point, storing the results 
            in a new column kmeans_cluster in the DataFrame.
 
      6.Sorting and Printing the DataFrame:
-           sorted_df = df.sort_values(by='kmeans_cluster')   =   Sorts the DataFrame by the cluster labels to make it easier to analyze each cluster.
-           print(f"\nSorted DataFrame for features: {features}")  =   Prints a message indicating which features are being used for clustering.
+           sorted_df = df.sort_values(by='kmeans_cluster')   =   Sorts the DataFrame by the cluster labels to make it easier to analyze 
+           each cluster.
+           print(f"\nSorted DataFrame for features: {features}")  =   Prints a message indicating which features are being used for 
+           clustering.
            print(sorted_df)  =    Prints the sorted DataFrame to the console for inspection.
 
      7.Calculating and Printing Summary Statistics:
-           cluster_summary = sorted_df.groupby('kmeans_cluster')[features].agg(['mean', 'std'])   =  Calculates the mean and standard deviation for each cluster for 
+           cluster_summary = sorted_df.groupby('kmeans_cluster')[features].agg(['mean', 'std'])   =  Calculates the mean and standard 
+           deviation for each cluster for 
            the selected features and stores the results in cluster_summary.
-           print(f"\nCluster Summary for features: {features}")    =     Prints a message indicating which features are being summarized.
+           print(f"\nCluster Summary for features: {features}")    =     Prints a message indicating which features are being 
+           summarized.
            print(cluster_summary)    =    Prints the summary statistics to the console.
 
      8.Additional Descriptive Statistics:
-           cluster_description=sorted_df.groupby('kmeans_cluster')[features].describe()   =  Calculates additional descriptive statistics for each cluster for the 
+           cluster_description=sorted_df.groupby('kmeans_cluster')[features].describe()   =  Calculates additional descriptive 
+           statistics for each cluster for the 
            selected features and  stores the results in cluster_description.
-           print(f"\nCluster Description for features: {features}")   =    Prints a message indicating which features are being described.
+           print(f"\nCluster Description for features: {features}")   =    Prints a message indicating which features are being 
+           described.
            print(cluster_description)   =    Prints the descriptive statistics to the console.
 
      9.Plotting K-Means Clusters in 3D:
@@ -106,7 +121,8 @@ Clustering Algorithum(3D)*******
            ax = fig.add_subplot(111, projection='3d')    =     Adds a 3D subplot to the figure.
 
      10.Generating the 3D Scatter Plot:
-           scatter = ax.scatter(sorted_df[features[0]], sorted_df[features[1]], sorted_df[features[2]], c=sorted_df['kmeans_cluster'], cmap='viridis', s=100):
+           scatter = ax.scatter(sorted_df[features[0]], sorted_df[features[1]], sorted_df[features[2]], c=sorted_df['kmeans_cluster'], 
+           cmap='viridis', s=100):
            Plots a 3D scatter plot where:
            x=features[0]     =      Sets the x-axis to the first feature.
            y=features[1]     =     Sets the y-axis to the second feature.
@@ -116,8 +132,8 @@ Clustering Algorithum(3D)*******
            s=100                           =     Sets the size of the data points.
 
      11.Adding Labels and Title:
-          ax.set_title(f'K-Means Clustering of HeartAttack Data for features: {", ".join(full_forms)}'): Sets the title of the 3D scatter plot, including the full 
-          forms of the features.
+          ax.set_title(f'K-Means Clustering of HeartAttack Data for features: {", ".join(full_forms)}'): Sets the title of the 3D 
+          scatter plot, including the full forms of the features.
           ax.set_xlabel(full_forms[0])    =     Labels the x-axis with the full form of the  first feature.
           ax.set_ylabel(full_forms[1])    =     Labels the y-axis with the full form of the second  feature.
           ax.set_zlabel(full_forms[2])    =      Labels the z-axis with the full form of the  third feature.
@@ -131,33 +147,37 @@ Clustering Algorithum(3D)*******
 
      14.Feature Combination:
           First Feature Combination:
-              perform_kmeans_clustering(['age', 'chol', 'fbs'], ['Age', 'Cholesterol', 'Fasting Blood Sugar'])   =   Calls the function with features 'age', 'chol', 
-              'fbs' and their full forms 'Age', 'Cholesterol', 'Fasting Blood Sugar'.
+              perform_kmeans_clustering(['age', 'chol', 'fbs'], ['Age', 'Cholesterol', 'Fasting Blood Sugar'])   =   Calls the function 
+              with features 'age', 'chol', 'fbs' and their full forms 'Age', 'Cholesterol', 'Fasting Blood Sugar'.
           Second Feature Combination:
-              perform_kmeans_clustering(['age', 'chol', 'trtbps'], ['Age', 'Cholesterol', 'Resting Blood Pressure'])   =    Calls the function with features 'age', 
+              perform_kmeans_clustering(['age', 'chol', 'trtbps'], ['Age', 'Cholesterol', 'Resting Blood Pressure'])   =    Calls the 
+              function with features 'age', 
               'chol', 'trtbps' and their  full forms 'Age', 'Cholesterol', 'Resting Blood Pressure'.
           Third Feature Combination:
-              perform_kmeans_clustering(['age', 'chol', 'thalachh'], ['Age', 'Cholesterol', 'Maximum Heart Rate Achieved'])   =    Calls the function with features  
-              'age', 'chol', 'thalachh'   and their full forms 'Age', 'Cholesterol', 'Maximum Heart Rate Achieved'.
+              perform_kmeans_clustering(['age', 'chol', 'thalachh'], ['Age', 'Cholesterol', 'Maximum Heart Rate Achieved'])   =    
+              Calls the function with features 'age', 'chol', 'thalachh'   and their full forms 'Age', 'Cholesterol', 'Maximum Heart 
+              Rate Achieved'.
 
-________________________________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________
 
 LogisticRegression
 
      1.Importing Libraries:
           import pandas as pd    =     Imports the pandas library for data manipulation.
-          from sklearn.model_selection import train_test_split     =     Imports the train_test_split function to split the dataset into training and testing sets.
+          from sklearn.model_selection import train_test_split     =     Imports the train_test_split function to split the dataset 
+          into training and testing sets.
           from sklearn.preprocessing import StandardScaler      =     Imports the StandardScaler for feature scaling.
           from sklearn.linear_model import LogisticRegression        =     Imports the Logistic Regression model from scikit-learn.
-          from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, classification_report      =     Imports various metrics 
-          for evaluating the model.
+          from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, classification_report               =  Imports various metrics for evaluating the model.
           import matplotlib.pyplot as plt       =         Imports matplotlib for plotting.
       
      2.Loading the Dataset:
-          df = pd.read_csv('/content/Heartattack.csv')      =      Loads the heart attack dataset into a pandas DataFrame from a CSV file.
+          df = pd.read_csv('/content/Heartattack.csv')      =      Loads the heart attack dataset into a pandas DataFrame from a CSV 
+          file.
 
      3.Handling Missing Values:
-          df.fillna(df.mean(), inplace=True)       =     Fills any missing values in the DataFrame with the mean of their respective columns.
+          df.fillna(df.mean(), inplace=True)       =     Fills any missing values in the DataFrame with the mean of their respective 
+          columns.
 
      4.Splitting the Data:
           X = df.drop('output', axis=1)    =   Drops the target variable (output) from the DataFrame to create the feature set X.
@@ -165,7 +185,8 @@ LogisticRegression
 
      5.Standardizing the Data:
           scaler = StandardScaler(): Initializes the StandardScaler.
-          X_scaled = scaler.fit_transform(X): Fits the StandardScaler to the feature set and transforms the data to have a mean of 0 and a standard deviation of 1.
+          X_scaled = scaler.fit_transform(X): Fits the StandardScaler to the feature set and transforms the data to have a mean of 0 
+          and a standard deviation of 1.
 
      6.Splitting into Training and Testing Sets:
           X_train, X_test, y_train, y_test=train_test_split(X_scaled, y, test_size=0.3, random_state=65):
@@ -180,19 +201,23 @@ LogisticRegression
 
      8.Evaluation Metrics:
           print("Logistic Regression:")   =    Prints a header indicating the model being evaluated.
-          print(f'Accuracy: {accuracy_score(y_test, y_pred_log_reg)}')   =   Prints the accuracy of the model, which is the ratio of correctly predicted instances to 
+          print(f'Accuracy: {accuracy_score(y_test, y_pred_log_reg)}')   =   Prints the accuracy of the model, which is the ratio of 
+          correctly predicted instances to 
           the total instances.
-          print(f'Precision: {precision_score(y_test, y_pred_log_reg)}')   =   Prints the precision of the model, which is the ratio of correctly predicted positive 
+          print(f'Precision: {precision_score(y_test, y_pred_log_reg)}')   =   Prints the precision of the model, which is the ratio of 
+          correctly predicted positive 
           instances to the total predicted positive instances.
-          print(f'Recall: {recall_score(y_test, y_pred_log_reg)}')   =   Prints the recall of the model, which is the ratio of correctly predicted positive instances 
+          print(f'Recall: {recall_score(y_test, y_pred_log_reg)}')   =   Prints the recall of the model, which is the ratio of 
+          correctly predicted positive instances 
           to all actual positive instances.
-          print(f'F1 Score: {f1_score(y_test, y_pred_log_reg)}')    =    Prints the F1 score of the model, which is the harmonic mean of precision and recall.
-          print(f'ROC-AUC: {roc_auc_score(y_test, y_pred_log_reg)}')   =    Prints the ROC-AUC score, which is a measure of the model's ability to distinguish between 
-          classes
-          print(classification_report(y_test, y_pred_log_reg))    =    Prints a detailed classification report including precision, recall, f1-score, and support for 
-          each class.
+          print(f'F1 Score: {f1_score(y_test, y_pred_log_reg)}')    =    Prints the F1 score of the model, which is the harmonic mean 
+          of precision and recall.
+          print(f'ROC-AUC: {roc_auc_score(y_test, y_pred_log_reg)}')   =    Prints the ROC-AUC score, which is a measure of the model's 
+          ability to distinguish between classes
+          print(classification_report(y_test, y_pred_log_reg))    =    Prints a detailed classification report including precision, 
+          recall, f1-score, and support for each class.
  
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------
 
 Decision Tree
 1.Importing Libraries:
@@ -241,31 +266,36 @@ Decision Tree
 10.Evaluating the Model:
       print("Decision Tree Model Performance:"): Prints a header indicating the model being evaluated.
       print(f'Accuracy: {accuracy_score(y_test, y_pred_tree)}'): Prints the accuracy of the model on the test set.
-      print(classification_report(y_test, y_pred_tree)): Prints a detailed classification report including precision, recall, f1-score, and support for each class.
+      print(classification_report(y_test, y_pred_tree)): Prints a detailed classification report including precision, recall, f1-score, 
+      and support for each class.
 
 11.Visualizing the Decision Tree:
       plt.figure(figsize=(20,10)): Creates a figure with dimensions 20x10 inches for the plot.
-      plot_tree(tree_clf, filled=True, feature_names=X.columns, class_names=['0', '1'], rounded=True): Plots the Decision Tree with filled nodes, feature names, class names, and rounded 
-      boxes.
+      plot_tree(tree_clf, filled=True, feature_names=X.columns, class_names=['0', '1'], rounded=True): Plots the Decision Tree with 
+      filled nodes, feature names, class names, and rounded boxes.
       plt.show(): Displays the plot.
 
 12.Feature Importance:
       importances=tree_clf.feature_importances_      =      Extracts the feature importances from the trained Decision Tree model.
-      feature_importance_df=pd.DataFrame({'Feature': X.columns, 'Importance': importances})   =    Creates a DataFrame with feature names and their respective importances.
-      feature_importance_df=feature_importance_df.sort_values(by='Importance', ascending=False)    =    Sorts the DataFrame by importance in descending order.
+      feature_importance_df=pd.DataFrame({'Feature': X.columns, 'Importance': importances})   =    Creates a DataFrame with feature 
+      names and their respective importances.
+      feature_importance_df=feature_importance_df.sort_values(by='Importance', ascending=False)    =    Sorts the DataFrame by 
+      importance in descending order.
       print("Feature Importance:")      =   Prints a header for feature importance.
       print(feature_importance_df)     =     Prints the sorted DataFrame of feature importances.
 
 13.Creating a Test Data Points:
-      new_data_point = pd.DataFrame([[38, 1, 2, 138, 175, 0, 1, 173, 0, 0, 2, 4, 2]], columns=X.columns)  =  new data point is created with the Column values.
-      columns=X.columns       =       ensures that the new data point has the same column names as the training data.
+      new_data_point = pd.DataFrame([[38, 1, 2, 138, 175, 0, 1, 173, 0, 0, 2, 4, 2]], columns=X.columns)  =  new data point is created 
+      with the Column values.columns=X.columns       =       ensures that the new data point has the same column names as the training 
+      data.
 
 14.Making a Prediction:
       prediction = tree_clf.predict(new_data_point)     =    The trained Decision Tree model is used to make a prediction for the new data point.
       tree_clf.predict(new_data_point)     =   returns the predicted class label.
 
 15.Getting Prediction Probabilities:
-      prediction_probability=tree_clf.predict_proba(new_data_point)     =  The trained Decision Tree model is used to get the predicted probabilities for each class.
+      prediction_probability=tree_clf.predict_proba(new_data_point)     =  The trained Decision Tree model is used to get the predicted 
+      probabilities for each class.
       tree_clf.predict_proba(new_data_point)    =   the probabilities of the new data point belonging to each class.
 
 16.Printing the Results:
@@ -273,7 +303,7 @@ Decision Tree
       Prints the predicted class label for the new data point.
       print(f"Probability: {prediction_probability}"):
       Prints the predicted probabilities for the new data point belonging to each class.
-_________________________________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________
 
 
 
@@ -290,17 +320,24 @@ Evaluation using Linear Regression and Decision Tree Regressor*****************
 3.Training and Evaluating Linear Regression Model:
         linear_regressor = LinearRegression()    =    Initializes a Linear Regression model.
         linear_regressor.fit(X_train, y_train)     =     Trains the Linear Regression model on the training data.
-        y_pred_lr=linear_regressor.predict(X_test)      =     Predicts the target variable (y) using the trained Linear Regression model.
-        mse_lr=mean_squared_error(y_test, y_pred_lr)    =     Computes the Mean Squared Error (MSE) between actual (y_test) and predicted (y_pred_lr) values.
-        r2_lr = r2_score(y_test, y_pred_lr)     =     Computes the R-squared score between actual (y_test) and predicted (y_pred_lr) values.
+        y_pred_lr=linear_regressor.predict(X_test)      =     Predicts the target variable (y) using the trained Linear Regression 
+        model.
+        mse_lr=mean_squared_error(y_test, y_pred_lr)    =     Computes the Mean Squared Error (MSE) between actual (y_test) and 
+        predicted (y_pred_lr) values.
+        r2_lr = r2_score(y_test, y_pred_lr)     =     Computes the R-squared score between actual (y_test) and predicted (y_pred_lr) 
+        values.
         Prints out the MSE and R-squared score for the Linear Regression model.
 
 4.Training and Evaluating Decision Tree Regressor:
-        tree_regressor = DecisionTreeRegressor(random_state=42)     =   Initializes a Decision Tree Regressor model with a random state for reproducibility.        
+        tree_regressor = DecisionTreeRegressor(random_state=42)     =   Initializes a Decision Tree Regressor model with a random state 
+        for reproducibility.        
         tree_regressor.fit(X_train, y_train)     =     Trains the Decision Tree Regressor model on the training data.
-        y_pred_tree=tree_regressor.predict(X_test)    =    Predicts the target variable (y) using the trained Decision Tree Regressor model.
-        mse_tree = mean_squared_error(y_test, y_pred_tree)       =      Computes the Mean Squared Error (MSE) between actual (y_test) and predicted (y_pred_tree) values.
-        r2_tree = r2_score(y_test, y_pred_tree)        =      Computes the R-squared score between actual (y_test) and predicted (y_pred_tree) values.
+        y_pred_tree=tree_regressor.predict(X_test)    =    Predicts the target variable (y) using the trained Decision Tree Regressor 
+        model.
+        mse_tree = mean_squared_error(y_test, y_pred_tree)       =      Computes the Mean Squared Error (MSE) between actual (y_test) 
+        and predicted (y_pred_tree) values.
+        r2_tree = r2_score(y_test, y_pred_tree)        =      Computes the R-squared score between actual (y_test) and predicted 
+        (y_pred_tree) values.
         Prints out the MSE and R-squared score for the Decision Tree Regressor model.
 
 5.Plotting Actual vs Predicted Values:
@@ -308,19 +345,24 @@ Evaluation using Linear Regression and Decision Tree Regressor*****************
 
    5a.Left Subplot - Linear Regression:
          plt.subplot(1, 2, 1)        =       Sets up the subplot grid with 1 row, 2 columns, and selects the first subplot.
-         plt.scatter(y_test, y_pred_lr, color='blue')       =      Plots the predicted values (y_pred_lr) against the actual values (y_test) for Linear Regression.
-         plt.plot([y.min(), y.max()], [y.min(), y.max()], color='red', linewidth=2)      =       Draws a diagonal line representing perfect predictions.
+         plt.scatter(y_test, y_pred_lr, color='blue')       =      Plots the predicted values (y_pred_lr) against the actual values 
+         (y_test) for Linear Regression.
+         plt.plot([y.min(), y.max()], [y.min(), y.max()], color='red', linewidth=2)      =       Draws a diagonal line representing 
+         perfect predictions.
          plt.title('Linear Regression: Actual vs Predicted')      =   Sets the title for the subplot.
          plt.xlabel('Actual') and plt.ylabel('Predicted')     =      Sets the labels for the x-axis and y-axis respectively.
 
    5b.Right Subplot - Decision Tree Regressor:
          plt.subplot(1, 2, 2)     =      Selects the second subplot.
-         plt.scatter(y_test, y_pred_tree, color='green')         =      Plots the predicted values (y_pred_tree) against the actual values (y_test) for Decision Tree Regressor.
-         plt.plot([y.min(), y.max()], [y.min(), y.max()], color='red', linewidth=2)       =     Draws a diagonal line representing perfect predictions.
+         plt.scatter(y_test, y_pred_tree, color='green')         =      Plots the predicted values (y_pred_tree) against the actual 
+         values (y_test) for Decision Tree Regressor.
+         plt.plot([y.min(), y.max()], [y.min(), y.max()], color='red', linewidth=2)       =     Draws a diagonal line representing 
+         perfect predictions.
          plt.title('Decision Tree Regressor: Actual vs Predicted')    =      Sets the title for the subplot.
          plt.xlabel('Actual') and plt.ylabel('Predicted')      =     Sets the labels for the x-axis and y-axis respectively.
          plt.tight_layout()       =      Adjusts the spacing between subplots for better layout.
-         plt.show()      =         Displays the plot containing Actual vs Predicted values for both Linear Regression and Decision Tree Regressor models.
-
+         plt.show()      =         Displays the plot containing Actual vs Predicted values for both Linear Regression and Decision Tree 
+         Regressor models.
+____________________________________________________________________________________________________________________________________
 Summary:
 This code segment demonstrates the process of training and evaluating two regression models, Linear Regression and Decision Tree Regressor, using the heart attack dataset. It begins by loading and preparing the dataset, splitting it into training and testing sets, training each model, evaluating their performance using Mean Squared Error (MSE) and R-squared (R2) scores, and finally visualizing the results with scatter plots showing Actual vs Predicted values for both models. This approach helps in assessing how well each model predicts the target variable (output) based on the selected features (age, trtbps, chol, etc.)
