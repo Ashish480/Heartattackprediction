@@ -1,0 +1,56 @@
+% Preamble section of LaTeX document
+
+% Use geometry package for adjusting page dimensions
+\usepackage[a4paper, margin=1in]{geometry}
+
+% Packages for figures
+\usepackage{subfigure}  % Deprecated, consider using subcaption instead
+\usepackage{graphicx}   % For including graphics
+
+% Math fonts and symbols
+\usepackage{amsmath}    % AMS math package
+\usepackage{amsfonts}   % AMS fonts
+\usepackage{amsthm}     % AMS theorem environment
+\usepackage{latexsym}   % Additional LaTeX symbols
+\usepackage{amssymb}    % More mathematical symbols
+\usepackage{euscript}   % Script fonts
+
+% Packages for tables
+\usepackage{booktabs}   % For better table rules
+\usepackage[table]{xcolor}  % Color control for tables
+\usepackage{colortbl}   % More color control in tables
+\usepackage{tabularx}   % More flexible tables
+
+% Nice date format
+\usepackage[nodayofweek]{datetime}
+
+% References with links in text
+\usepackage{hyperref}
+
+% Easy way to type complex chemical formulas in the text
+\usepackage[version=4]{mhchem}
+
+% Even nicer layout of fonts
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+% Easy package for proper magnitude + unit pairs in the text
+\usepackage{siunitx}
+\sisetup{detect-weight,detect-mode}  % Configure siunitx
+
+% Figures with text surrounding it
+\usepackage{wrapfig}
+\setlength\intextsep{2pt}  % Adjust space around wrapped figures
+
+% Powerful color control
+\usepackage{color}
+\definecolor{LightColor}{rgb}{0.8,0.77,0.9}  % Custom color
+
+% Allow symbol font (type the character number)
+\usepackage{pifont}
+
+% Modification of the bibliography command
+\usepackage[numbib]{tocbibind}  % Include references in numbering
+\renewcommand{\tocbibname}{References relevant to the experiment description}
+
+% Special commands
+\def\code#1{\texttt{#1}}  % Command for monotype font in text
