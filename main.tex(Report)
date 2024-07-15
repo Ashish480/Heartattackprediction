@@ -1,0 +1,225 @@
+\documentclass{article}
+
+\input{preamble}
+
+\title{Report on Heart Attack Dataset}
+\author{Byte Brigade}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Objective}
+The goal of this project is to create an AI-driven solution that can efficiently process and analyze structured heart attack datasets to represent knowledge and generate valuable insights. This solution should identify patterns within the data and produce meaningful information to support decision-making processes.
+
+\section*{Problem Description}
+In today's era of big data, organizations across various sectors generate enormous amounts of data daily. Properly processing and analyzing this data can uncover valuable insights that greatly enhance decision-making processes. The challenge lies in effectively representing this knowledge and extracting useful insights. Your task is to develop an AI-based solution capable of addressing this challenge by processing a provided structured dataset, representing the knowledge within it, and generating meaningful insights.
+
+\section*{Dataset Source}
+\url{www.kaggle.com/datasets/rashikrahmanpritom/heart-attack-analysis-prediction-dataset}
+
+\section*{Key Features}
+The key feature of the dataset is that it contains reports from 304 patients on the likelihood of experiencing a heart attack, based on the following factors:
+\begin{itemize}
+    \item Age: Age of the patient
+    \item Sex: Gender of the patient (1 = male; 0 = female)
+    \item CP: Chest pain type (0 = typical angina, 1 = atypical angina, 2 = non-anginal pain, 3 = asymptomatic)
+    \item TRTBPS: Resting blood pressure (in mm Hg)
+    \item CHOL: Serum cholesterol in mg/dl
+    \item FBS: Fasting blood sugar (> 120 mg/dl, 1 = true; 0 = false)
+    \item RESTECG: Resting electrocardiographic results (0 = normal, 1 = having ST-T wave abnormality, 2 = showing probable or definite left ventricular hypertrophy)
+    \item THALACHH: Maximum heart rate achieved
+    \item EXNG: Exercise induced angina (1 = yes; 0 = no)
+    \item OLDPEAK: ST depression induced by exercise relative to rest
+    \item SLP: Slope of the peak exercise ST segment (0 = upsloping, 1 = flat, 2 = downsloping)
+    \item CAA: Number of major vessels (0-3) colored by fluoroscopy
+    \item THALL: Thalassemia (1 = normal; 2 = fixed defect; 3 = reversible defect)
+\end{itemize}
+
+\section*{Methods Used}
+\begin{itemize}
+    \item Clustering Algorithm: K-Means
+    \item Classification Algorithms: Decision Tree Classifier, Logistic Regression
+    \item Regression Algorithms: Linear Regression, Decision Tree Regressor
+\end{itemize}
+
+\section*{Tools}
+\begin{itemize}
+    \item Python Libraries: Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn
+\end{itemize}
+\
+\
+\
+\textwidth
+\textwidth
+\textwidth
+\textwidth
+
+\section*{Results \& Findings}
+\section*{Key Findings from Heart Attack Risk Analysis}
+\vspace{20pt}
+\subsection*{1. Distribution of Heart Attack Risk}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/Saved Pictures/download(0).png}
+    \caption{Distribution of Heart Attack Risk}
+    \label{fig:image1}
+\end{figure}
+\vspace{20pt}
+\begin{itemize}
+    \item Population Split:
+        \begin{itemize}
+            \item Lesser Chance of Heart Attack: 129 patients
+            \item More Chance of Heart Attack: 158 patients
+        \end{itemize}
+    \item Implications: Balanced dataset, important for training predictive models and interpreting performance metrics.
+\end{itemize}
+
+\newpage
+
+
+\subsection*{2. Age vs. Cholesterol}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (1).png}
+    \caption{Age vs. Cholesterol}
+    \label{fig:image2}
+\end{figure}
+
+\begin{itemize}
+    \item Correlation: Weak positive correlation (0.21), indicating slight increase in cholesterol with age.
+    \item Notable Cases: Oldest person (77 years) with cholesterol 304 mg/dl. Highest cholesterol (564 mg/dl) at age 67.
+    \item Health Implications: Monitoring cholesterol levels across age groups is crucial for assessing cardiovascular health risks.
+\end{itemize}
+
+
+
+\subsection*{3. Correlation Matrix Insights}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/Saved Pictures/download (3).png}
+    \caption{Correlation Matrix Insights}
+    \label{fig:image3}
+\end{figure}
+
+\newpage
+\vspace{50pt}
+\begin{itemize}
+    \item Age and Health Factors: Moderate positive correlation with resting blood pressure, moderate negative correlation with maximum heart rate achieved.
+    \item Sex and Heart Health: Males might have a slightly higher likelihood of experiencing a heart attack.
+    \item Heart Health Indicators: Moderate correlations with maximum heart rate, chest pain type, exercise-induced angina, and number of major vessels.
+\end{itemize}
+\vspace{80pt}
+\subsection*{4. Age vs. Maximum Heart Rate Achieved}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (4).png}
+    \caption{Age vs. Maximum Heart Rate Achieved}
+    \label{fig:image4}
+\end{figure}
+\vspace{40pt}
+\begin{itemize}
+    \item Mean Values: Average age: 54.37 years, Average maximum heart rate: 149.65 bpm.
+    \item Correlation: Moderate negative correlation (-0.40), suggesting that as age increases, maximum heart rate tends to decrease.
+\end{itemize}
+
+\newpage
+
+\subsection*{5. Chest Pain Types by Sex}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/Saved Pictures/download (6).png}
+    \caption{Chest Pain Types by Sex}
+    \label{fig:image5}
+\end{figure}
+
+\begin{itemize}
+    \item Distribution: 
+        \begin{itemize}
+            \item Typical Angina: Higher prevalence among males.
+            \item Atypical Angina: Similar distribution between males and females.
+            \item Non-anginal Pain: Slightly higher prevalence among females.
+            \item Asymptomatic: Higher prevalence among males.
+        \end{itemize}
+\end{itemize}
+
+\vspace{30pt}
+
+\subsection*{6. Cholesterol Levels}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (7).png}
+    \caption{Cholesterol Levels}
+    \label{fig:image6}
+\end{figure}
+\newpage
+\begin{itemize}
+    \item Peak Frequencies: Most common levels: 200-250 mg/dl.
+    \item Distribution: Clustering between 170-310 mg/dl.
+    \item Health Implications: High frequencies in certain ranges indicate a significant portion of patients with borderline high or high cholesterol, a concern for heart disease risk.
+\end{itemize}
+
+\vspace{100pt}
+
+\subsection*{7. Key Relationships (Graph Representation)}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (8).png}
+    \caption{Key Relationships (Graph Representation)}
+    \label{fig:image7}
+\end{figure}
+\vspace{30pt}
+\begin{itemize}
+    \item Highlighted Relationships: 
+        \begin{itemize}
+            \item Age vs. Maximum Heart Rate Achieved
+            \item Age vs. Cholesterol Level
+            \item Maximum Heart Rate Achieved vs. Heart Attack Risk
+            \item Cholesterol Level vs. Heart Attack Risk
+        \end{itemize}
+\end{itemize}
+
+\newpage
+
+\subsection*{8. Visualization}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (13).png}
+    \caption{Visualization of Blood Pressure and Heart Rate for Heart Attack Risk}
+    \label{fig:image8}
+\end{figure}
+\vspace{30pt}
+\begin{itemize}
+    \item Helps understand variable relationships for further analysis or predictive modeling. Blood Pressure and Heart Rate for Heart Attack Risk.
+    \item Blood Pressure: Certain intervals (120-125 and 130-135 mmHg) indicate critical ranges for cardiovascular risk assessment.
+    \item Heart Rate: Higher heart rates show a higher incidence of heart attack, with notable risk shifts in certain intervals.
+\end{itemize}
+
+\vspace{100pt}
+
+\subsection*{9. Pair Plot Insights}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (15).png}
+    \caption{Pair Plot Insights}
+    \label{fig:image9}
+\end{figure}
+
+\begin{itemize}
+    \item Age: Positive correlation with resting blood pressure, negative correlation with maximum heart rate achieved.
+    \item Effect of Heart Attack Risk: Clear differences in variable distributions between lower and higher risk groups.
+    \item Analytical Use: Valuable for exploratory data analysis and understanding interactions among health metrics.
+\end{itemize}
+
+\vspace{100pt}
+\section*{Future Work}
+Requires the Linear Regression and Decision Tree Regressor to be more accurate and also requires a massive dataset for better machine learning algorithm's accuracy.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/Saved Pictures/download (21).png}
+    \caption{Regression Models}
+    \label{fig:image9}
+\end{figure}
+
+\end{document}
