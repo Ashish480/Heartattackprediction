@@ -1,0 +1,880 @@
+%main.tex
+%Detailed Report(Heart_Attack_Predict)
+
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\geometry{a4paper, margin=1in}
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Report on Heart Attack Dataset}
+\author{Team: Byte Brigade //
+Members: Nevin,
+Archana,
+Ashish,
+Elvin,
+Vaishnav}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Objective}
+The goal of this project is to create an AI-driven solution that can efficiently process and analyze structured heart attack datasets to represent knowledge and generate valuable insights. This solution should identify patterns within the data and produce meaningful information to support decision-making processes.
+
+\section*{Problem Description}
+In today's era of big data, organizations across various sectors generate enormous amounts of data daily. Properly processing and analyzing this data can uncover valuable insights that greatly enhance decision-making processes. The challenge lies in effectively representing this knowledge and extracting useful insights. Your task is to develop an AI-based solution capable of addressing this challenge by processing a provided structured dataset, representing the knowledge within it, and generating meaningful insights.
+
+\section*{Dataset Source}
+\begin{itemize}
+    \item \textbf{Dataset Source:} \url{www.kaggle.com/datasets/rashikrahmanpritom/heart-attack-analysis-prediction-dataset}
+    \item \textbf{Key Features:} The dataset contains reports from 304 patients on the likelihood of experiencing a heart attack, based on the following factors:
+    \begin{itemize}
+        \item Age (\texttt{age})
+        \item Gender (\texttt{sex})
+        \item Chest pain type (\texttt{cp})
+        \item Resting blood pressure (\texttt{trtbps})
+        \item Serum cholesterol (\texttt{chol})
+        \item Fasting blood sugar (\texttt{fbs})
+        \item Resting electrocardiographic results (\texttt{restecg})
+        \item Maximum heart rate achieved (\texttt{thalachh})
+        \item Exercise induced angina (\texttt{exng})
+        \item ST depression induced by exercise relative to rest (\texttt{oldpeak})
+        \item Slope of the peak exercise ST segment (\texttt{slp})
+        \item Number of major vessels colored by fluoroscopy (\texttt{caa})
+        \item Thalassemia (\texttt{thall})
+    \end{itemize}
+\end{itemize}
+
+\section*{Methods Used}
+\begin{itemize}
+    \item \textbf{Clustering Algorithm:} K-Means
+    \item \textbf{Classification Algorithms:} Decision Tree Classifier, Logistic Regression
+    \item \textbf{Regression Algorithms:} Linear Regression, Decision Tree Regressor
+\end{itemize}
+
+\section*{Tools}
+\begin{itemize}
+    \item \textbf{Python Libraries:}
+    \begin{itemize}
+        \item Pandas: Data manipulation and analysis
+        \item NumPy: Numerical operations
+        \item Matplotlib and Seaborn: Data visualization
+        \item Scikit-learn: Machine learning and model evaluation
+    \end{itemize}
+\end{itemize}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{IMG-20240715-WA0018.jpg} % Adjust width as needed
+\end{center}
+% Include a page break for clarity in document
+\newpage
+\section*{Results \& Findings : Detailed Insight Generation Stages}
+\vspace{20}
+
+\begin{document}
+
+\maketitle
+
+\section{Data Preprocessing Stage}
+
+\subsection{Dataset Overview}
+\begin{itemize}
+    \item Initial Data Shape: The dataset contains 303 entries with 14 columns.
+    \item Missing Values: There are no missing values in any column.
+    \item Data Types: The dataset primarily consists of integer data types (13 columns) and one float data type.
+\end{itemize}
+
+\subsection{Key Insights}
+\begin{itemize}
+    \item Data Completeness: The absence of missing values suggests that the dataset is well-maintained and does not require any imputation strategies.
+    \item Dataset Structure: The dataset contains 14 columns, including the target variable (output).
+    \item Memory Usage: The dataset's memory usage is relatively low (33.3 KB).
+    \item Feature Types: The dataset includes both categorical and continuous features.
+    \item Feature Relevance: The features selected are clinically relevant for predicting heart attacks.
+\end{itemize}
+
+\subsection{Outlier Analysis}
+\begin{itemize}
+    \item Outliers were detected in several features:
+    \begin{itemize}
+        \item trtbps: 2 outliers
+        \item chol: 4 outliers
+        \item thalachh: 1 outlier
+        \item oldpeak: 2 outliers
+        \item caa: 5 outliers
+        \item thall: 2 outliers
+    \end{itemize}
+    \item Impact on Data Shape: After removing the detected outliers, the dataset's shape was reduced from 303 entries to 287 entries.
+    \item Feature-Specific Insights:
+    \begin{itemize}
+        \item trtbps (Resting Blood Pressure) and chol (Cholesterol Level) had relatively few outliers.
+        \item caa (Number of Major Vessels Colored by Fluoroscopy) had the highest number of outliers (5).
+        \item oldpeak (ST Depression Induced by Exercise) and thall (Thalassemia) had 2 outliers each.
+    \end{itemize}
+    \item Data Integrity: Removing outliers ensures that the dataset is cleaner and more representative of the typical patient profile.
+\end{itemize}
+
+\subsection{Dataset Composition}
+\begin{itemize}
+    \item The dataset contains 287 entries and 14 columns, including the target variable output.
+    \item All columns are complete with no missing values.
+    \item Feature Normalization: The features have been normalized to ensure a consistent scale.
+    \item Initial Data Preview: The first few rows of the dataset provide a snapshot of various attributes.
+\end{itemize}
+% Include a page break for clarity in document
+\newpage
+\section{Knowledge Representation Stage}
+
+\subsection{Distribution of Heart Attack Risk (Histogram)}
+\begin{itemize}
+    \item Population Split:
+    \begin{itemize}
+        \item Lesser Chance of Heart Attack (0): 129 patients
+        \item More Chance of Heart Attack (1): 158 patients
+    \end{itemize}
+    \item Implications: The dataset appears to have a relatively balanced representation between the two categories.
+\end{itemize}
+% Inserting the image
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download.png} % Adjust width as needed
+\end{center}
+
+\subsection{Distribution of Age (Histogram)}
+\begin{itemize}
+    \item The highest frequency appears to be in the range of 55-60 years.
+    \item There is a generally increasing trend in frequency up to around 65 years, after which it declines gradually.
+\end{itemize}
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{images/Saved Pictures/download (1).png} % Adjust width as needed
+\end{center}
+\subsection{Age vs Cholesterol (Scatterplot)}
+\begin{itemize}
+    \item Correlation Analysis: The positive correlation coefficient of 0.21 indicates a weak relationship between age and cholesterol levels.
+    \item Age Extremes: The dataset includes individuals ranging from 29 to 77 years old.
+    \item Cholesterol Extremes: The dataset shows a wide range of cholesterol levels, from a minimum of 126 mg/dl to a maximum of 564 mg/dl.
+    \item Individual Cases:
+    \begin{itemize}
+        \item The oldest person (77 years old) has a cholesterol level of 304 mg/dl.
+        \item The youngest person (29 years old) has a cholesterol level of 204 mg/dl.
+        \item The person with the highest recorded cholesterol (564 mg/dl) is aged 67 years.
+        \item The person with the lowest recorded cholesterol (126 mg/dl) is aged 57 years.
+    \end{itemize}
+    \item Health Considerations: Monitoring cholesterol levels across different age groups is crucial for assessing cardiovascular health risks.
+\end{itemize}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (2).png} % Adjust width as needed
+\end{center}
+\subsection{Correlation Matrix Heatmap}
+\begin{itemize}
+    \item Age and Health Factors:
+    \begin{itemize}
+        \item Resting Blood Pressure (trtbps): Moderate positive correlation with age.
+        \item Maximum Heart Rate Achieved (thalachh): Moderate negative correlation with age.
+        \item Number of Major Vessels (caa): Moderate positive correlation with age.
+    \end{itemize}
+    \item Sex and Heart Health:
+    \begin{itemize}
+        \item Heart Attack Risk (output): Moderate negative correlation with sex.
+    \end{itemize}
+    \item Chest Pain and Heart Health:
+    \begin{itemize}
+        \item Exercise Induced Angina (exng): Moderate negative correlation with chest pain type (cp).
+        \item Heart Attack Risk (output): Moderate positive correlation with chest pain type (cp).
+    \end{itemize}
+    \item Heart Rate and Exercise:
+    \begin{itemize}
+        \item Exercise Induced Angina (exng): Moderate negative correlation with maximum heart rate achieved (thalachh).
+        \item ST Depression Induced by Exercise (oldpeak): Moderate negative correlation with maximum heart rate achieved (thalachh).
+        \item Slope of the Peak Exercise ST Segment (slp): Moderate positive correlation with maximum heart rate achieved (thalachh).
+    \end{itemize}
+    \item Heart Health Indicators:
+    \begin{itemize}
+        \item Heart Attack Risk (output): Moderate correlations with several factors including maximum heart rate achieved (thalachh), chest pain type (cp), exercise-induced angina (exng), ST depression induced by exercise (oldpeak), number of major vessels (caa), and thallium stress test result (thall).
+    \end{itemize}
+\end{itemize}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (3).png} % Adjust width as needed
+\end{center}
+\subsection{Age vs Maximum Heart Rate Achieved}
+\begin{itemize}
+    \item Mean Age and Maximum Heart Rate Achieved: The average age is approximately 54.37 years, while the average maximum heart rate achieved is around 149.65 bpm.
+    \item Correlation between Age and Maximum Heart Rate Achieved: The correlation coefficient of -0.40 indicates a moderate negative correlation.
+    \item Standard Deviation: Age (9.08), Maximum Heart Rate Achieved (22.91).
+    \item Outliers: No outliers detected in Age, one outlier detected in Maximum Heart Rate Achieved.
+\end{itemize}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (4).png} % Adjust width as needed
+\end{center}
+\vspace{30}
+\subsection{Stacked Bar and Pie Chart of Chest Pain Types by Sex}
+\begin{itemize}
+    \item Stacked Bar Chart of Chest Pain Types by Sex:
+    \begin{itemize}
+        \item Type 0 (Typical Angina): Higher prevalence among males.
+        \item Type 1 (Atypical Angina): Similar distribution between males and females.
+        \item Type 2 (Non-anginal Pain): Slightly higher prevalence among females.
+        \item Type 3 (Asymptomatic): Higher prevalence among males.
+    \end{itemize}
+    \item Proportion of Chest Pain Types (Pie Chart):
+    \begin{itemize}
+        \item Type 0 (Typical Angina): 47.2\%
+        \item Type 1 (Atypical Angina): 28.7\%
+        \item Type 2 (Non-anginal Pain): 16.5\%
+        \item Type 3 (Asymptomatic): 7.6\%
+    \end{itemize}
+\end{itemize}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (5).png} % Adjust width as needed
+\end{center}
+\subsection{Cholesterol Levels Histogram}
+\begin{itemize}
+    \item Peak Frequencies: Highest frequency observed in the ranges 230-240 (28 occurrences) and 240-250 (26 occurrences).
+    \item Overall Distribution: Clustering of cholesterol levels between 170 and 310.
+    \item Low and High Extremes: Few patients with cholesterol levels in the extreme ranges (below 120 and above 370).
+    \item Health Implications: Clustering of cholesterol levels in the 170-310 range suggests most patients are within the range where medical intervention might be recommended.
+\end{itemize}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (6).png} % Adjust width as needed
+\end{center}
+\subsection{Graph Representation of Key Relationships}
+\begin{itemize}
+    \item Key Relationships Identified:
+    \begin{itemize}
+        \item Age and Maximum Heart Rate Achieved (thalachh)
+        \item Age and Cholesterol Level (chol)
+        \item Maximum Heart Rate Achieved (thalachh) and Heart Attack Risk (output)
+        \item Cholesterol Level (chol) and Heart Attack Risk (output)
+    \end{itemize}
+    \item Strength of Relationships: The presence of edges indicates a correlation or relationship between the connected nodes.
+    \item Analysis Considerations: These relationships are valuable for understanding key risk factors for heart attacks and can guide further analysis or model development.
+\end{itemize}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (7).png} % Adjust width as needed
+\end{center}
+\vspace{70}
+\subsection{Box Plot of Age, Trtbps, Chol, Thalachh}
+
+\begin{itemize}
+    \item \textbf{Age}: The distribution appears relatively balanced around the median without significant outliers, indicating a more uniform age distribution.
+    \begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (8).png} % Adjust width as needed
+\end{center}
+    \item \textbf{Resting Blood Pressure}: There are multiple outliers observed above the upper bound, suggesting some instances of unusually high resting blood pressure readings.
+    \begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (9).png} % Adjust width as needed
+\end{center}
+    \item \textbf{Cholesterol}: Several outliers are noted at higher cholesterol levels, which may indicate some individuals with significantly elevated cholesterol compared to the majority.
+    \begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (10).png} % Adjust width as needed
+\end{center}
+    \item \textbf{Maximum Heart Rate Achieved}: There is one outlier noted at a lower maximum heart rate, potentially indicating a distinct subset of individuals with lower heart rates compared to the median.
+    \begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (11).png} % Adjust width as needed
+\end{center}
+\end{itemize}
+
+\subsection{Distribution of Cholesterol Level for Different Chances of Heart Attack}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (12).png} % Adjust width as needed
+\end{center}
+\subsubsection*{Higher Chance vs. Lower Chance of Heart Attack:}
+\begin{itemize}
+    \item \textbf{Cholesterol Levels 120-260}: There seems to be a higher count of individuals with a higher chance of heart attack compared to those with a lower chance in these intervals.
+    \item \textbf{Cholesterol Levels 280-300}: The count shifts, showing more individuals with a lower chance of heart attack compared to those with a higher chance.
+    \item \textbf{Cholesterol Levels 300-320}: There is again a higher count of individuals with a higher chance of heart attack compared to those with a lower chance.
+\end{itemize}
+
+\subsubsection*{Specific Intervals:}
+\begin{itemize}
+    \item \textbf{Cholesterol Levels 180-200}: Shows a relatively high count of individuals with a higher chance of heart attack compared to those with a lower chance.
+    \item \textbf{Cholesterol Levels 220-240}: Also shows a noticeable difference between higher and lower chances, with more individuals in the higher chance category.
+\end{itemize}
+
+\subsubsection*{Outlier Detection:}
+The presence of outliers, especially at the extreme ends of the cholesterol spectrum (e.g., levels above 400), indicates cases that might warrant special attention due to their potential impact on heart health.
+
+\subsubsection*{Distribution and Risk Assessment:}
+These insights suggest that cholesterol levels within certain ranges might correlate with a higher likelihood of heart attack. This information could be valuable for risk assessment and preventive measures in clinical settings.
+
+\subsection{Distribution of Blood Pressure for Different Chances of Heart Attack}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (13).png} % Adjust width as needed
+\end{center}
+\subsubsection*{Higher Chance of Heart Attack vs. Lower Chance:}
+Intervals where the count of individuals with a higher chance of heart attack is noticeably higher than those with a lower chance can indicate potential risk factors associated with higher blood pressure.
+
+\subsubsection*{Distribution Patterns:}
+The distribution shows a varying pattern across different intervals. For instance, intervals around 120-125 and 130-135 show a significant number of individuals with both higher and lower chances of heart attack, indicating that blood pressure alone may not be a definitive indicator without considering other factors.
+
+\subsubsection*{Risk Assessment:}
+Higher counts in certain intervals, such as 120-125 and 130-135, suggest these ranges might be critical for assessing cardiovascular risk. This aligns with medical understanding that blood pressure within specific ranges can impact heart health differently for different individuals.
+
+\subsubsection*{Potential Outliers:}
+Although not explicitly noted here, outliers (such as extremely high or low values) in blood pressure could be crucial in understanding extreme risk cases that deviate significantly from typical patterns observed in the dataset.
+
+\subsubsection*{Clinical Considerations:}
+Clinically, these insights can guide healthcare professionals in identifying potential risk factors associated with blood pressure levels and their correlation with the likelihood of a heart attack. This understanding can lead to better preventive measures and personalized healthcare interventions.
+
+\subsection{Distribution of Heart Rate for Different Chances of Heart Attack}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (14).png} % Adjust width as needed
+\end{center}
+\subsubsection*{Lower Heart Rates (80-100 bpm):}
+\begin{itemize}
+    \item Individuals with lower heart rates (80-100 bpm) generally have a mix of lower and higher chances of heart attack.
+    \item Lower chance intervals (e.g., 85-90 bpm, 90-95 bpm) tend to have fewer occurrences compared to higher chance intervals (e.g., 95-100 bpm).
+\end{itemize}
+
+\subsubsection*{Moderate Heart Rates (100-130 bpm):}
+Heart rates in the range of 100-130 bpm show a broader distribution. There's a notable shift towards higher chances of heart attack as heart rate increases within this range (e.g., 110-115 bpm, 120-125 bpm).
+
+\subsubsection*{Higher Heart Rates (130-180 bpm):}
+Heart rates above 130 bpm generally show a higher incidence of heart attacks. Intervals like 130-135 bpm, 140-145 bpm, and 160-165 bpm consistently show higher chances of heart attack compared to lower chance intervals.
+
+\subsubsection*{Very High Heart Rates (180-205 bpm):}
+Very high heart rates (180-205 bpm) are less common but still indicate a higher chance of heart attack, albeit with fewer data points.
+
+\subsection{Pair Plot}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (15).png} % Adjust width as needed
+\end{center}
+\subsubsection*{Age vs. Other Variables:}
+\begin{itemize}
+    \item \textbf{Age vs. Resting Blood Pressure (trtbps)}: There appears to be a slight positive correlation, suggesting that older individuals tend to have slightly higher resting blood pressure.
+    \item \textbf{Age vs. Cholesterol Level (chol)}: There doesn't seem to be a strong linear trend, indicating that age alone may not significantly influence cholesterol levels.
+    \item \textbf{Age vs. Maximum Heart Rate Achieved (thalachh)}: There's a noticeable downward trend as age increases, suggesting that older individuals generally achieve lower maximum heart rates.
+\end{itemize}
+
+\subsubsection*{Resting Blood Pressure (trtbps) vs. Other Variables:}
+\begin{itemize}
+    \item \textbf{Resting Blood Pressure vs. Cholesterol Level (chol)}: There doesn't appear to be a strong linear relationship between these variables, indicating that they may be independent factors.
+    \item \textbf{Resting Blood Pressure vs. Maximum Heart Rate Achieved (thalachh)}: Similarly, there doesn't seem to be a clear linear relationship, suggesting independence or non-linear associations.
+\end{itemize}
+
+\subsubsection*{Cholesterol Level (chol) vs. Maximum Heart Rate Achieved (thalachh):}
+There appears to be no strong linear correlation between cholesterol levels and maximum heart rates achieved. This suggests that these variables may not directly influence each other linearly in the dataset.
+
+\subsubsection*{Effect of Output (Chance of Heart Attack):}
+The hue (output) shows how the distribution of each variable differs between individuals with a lower chance (0) and a higher chance (1) of heart attack. For instance, in the age vs. thalachh plot, there's a noticeable concentration of higher chances of heart attack (orange) in older individuals with lower maximum heart rates.
+
+% Include a page break for clarity in document
+\newpage
+\section*{3. Pattern Identification}
+
+\subsection*{3.1 K-Means: Clustering Algorithm (2D)}
+
+\subsubsection*{(i) Age and Cholesterol:}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (16).png} % Adjust width as needed
+\end{center}
+    Older individuals tend to cluster together with higher cholesterol levels, suggesting a potential correlation between age and cholesterol.
+    Younger individuals are more spread out across the clusters, indicating diverse cholesterol levels.
+
+\subsubsection*{(ii) Blood Pressure and Cholesterol:}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (17).png} % Adjust width as needed
+\end{center}
+    Higher blood pressure readings tend to correlate with higher cholesterol levels in some clusters, particularly Cluster 1 (blue).
+    Lower blood pressure readings are associated with varying cholesterol levels across different clusters.
+
+\subsubsection*{Cluster Interpretation:}
+    Cluster 1 (blue) may represent individuals at higher risk due to higher cholesterol levels and moderate blood pressure.
+    Cluster 3 (yellow) suggests a younger group with higher blood pressure readings, indicating potential risk factors in younger demographics.
+
+\subsubsection*{Practical Implications:}
+    These clusters can help identify groups at higher risk of heart issues based on age, blood pressure, and cholesterol levels.
+    Healthcare interventions and preventive measures could be targeted based on these identified clusters to mitigate potential risks associated with heart attacks.
+
+
+\subsection*{3.2 K-Means: Clustering Algorithm (3D)}
+
+\subsubsection*{(i) Insights from the Sorted DataFrame}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (18).png} % Adjust width as needed
+\end{center}
+Based on the sorted DataFrame for features ['age', 'chol', 'fbs'], we can draw the following insights:
+
+\begin{enumerate}
+    \item \textbf{Age and Cholesterol Relationship:}
+        \begin{itemize}
+            \item Older Age and Lower Cholesterol:
+                \begin{itemize}
+                    \item The oldest individual in the dataset is 77 years old with a cholesterol level of 304.
+                    \item Individuals like those aged 71 have a cholesterol level of 149, which is relatively low for their age.
+                \end{itemize}
+            \item Middle-Aged Individuals:
+                \begin{itemize}
+                    \item A significant number of middle-aged individuals (ages 41 to 59) exhibit varied cholesterol levels ranging from 177 to 327.
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Fasting Blood Sugar (fbs):}
+        \begin{itemize}
+            \item The fbs value is 0 across all sorted entries, indicating that fasting blood sugar levels above 120 mg/dl are not prevalent in this subset.
+        \end{itemize}
+
+    \item \textbf{K-Means Clustering:}
+        \begin{itemize}
+            \item \textbf{Cluster 0 (Blue):}
+                \begin{itemize}
+                    \item Appears to have a mix of ages with cholesterol levels ranging from 149 to 214.
+                    \item Individuals in this cluster have varied conditions like restecg and thalachh, but all have fbs as 0.
+                \end{itemize}
+            \item \textbf{Cluster 2 (Green):}
+                \begin{itemize}
+                    \item Consists of individuals with very high cholesterol levels (295 to 327).
+                    \item This cluster also includes individuals with severe heart conditions (ca=3 and thall=3).
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Heart Attack Risk (output):}
+        \begin{itemize}
+            \item Individuals with higher cholesterol levels (above 295) mostly belong to cluster 2 and show varied output values (indicating both higher and lower chances of heart attack).
+            \item Middle-aged individuals with moderate cholesterol levels (ranging from 204 to 214) and varying restecg values mostly belong to cluster 0 and have output values indicating higher chances of heart attack.
+        \end{itemize}
+
+\end{enumerate}
+
+\subsubsection*{Detailed Analysis:}
+
+\begin{itemize}
+    \item \textbf{Cluster Analysis:}
+        \begin{itemize}
+            \item \textbf{Cluster 0:}
+                \begin{itemize}
+                    \item Predominantly middle-aged individuals (41 to 56) with moderate cholesterol levels.
+                    \item These individuals generally show a higher chance of heart attack (output=1).
+                    \item They have various restecg values, indicating different ECG results.
+                \end{itemize}
+            \item \textbf{Cluster 2:}
+                \begin{itemize}
+                    \item Contains individuals with very high cholesterol levels, including both younger and older individuals.
+                    \item This cluster shows a mix of heart attack risks, but many are in higher risk categories.
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Age and Risk Factors:}
+        \begin{itemize}
+            \item Older individuals with lower cholesterol levels may still be at risk due to other factors like thalachh and trtbps.
+            \item Younger individuals with very high cholesterol levels are at significant risk of heart issues, as indicated by the clustering results.
+        \end{itemize}
+
+    \item \textbf{Health Interventions:}
+        \begin{itemize}
+            \item Targeted interventions can be designed for clusters. For instance, cluster 2 individuals (with high cholesterol) might benefit from aggressive cholesterol management and regular monitoring.
+            \item Middle-aged individuals in cluster 0 with moderate cholesterol levels but higher heart attack risk (output=1) may need comprehensive cardiovascular assessments.
+        \end{itemize}
+
+    \item \textbf{Preventive Measures:}
+        \begin{itemize}
+            \item Preventive measures should focus on managing cholesterol levels across all age groups.
+            \item Regular screenings and lifestyle modifications are essential for individuals in higher risk clusters.
+        \end{itemize}
+
+\end{itemize}
+
+
+\subsection*{(ii) Insights from the Sorted DataFrame for Features: ['age', 'chol', 'trtbps']}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (19).png} % Adjust width as needed
+\end{center}
+\subsubsection*{Observations and Patterns:}
+
+\begin{enumerate}
+    \item \textbf{Age and Cholesterol:}
+        \begin{itemize}
+            \item Older Age with Lower Cholesterol:
+                \begin{itemize}
+                    \item The oldest individual in the dataset is 71 years old with a cholesterol level of 149 and resting blood pressure of 112, showing low cholesterol and blood pressure.
+                    \item Individuals around the age of 64 and 66 have cholesterol levels ranging from 227 to 278 with varying blood pressure levels (170 and 146 respectively).
+                \end{itemize}
+            \item \textbf{Middle Age and Cholesterol:}
+                \begin{itemize}
+                    \item Individuals aged between 52 and 59 show cholesterol levels from 196 to 239, with varying blood pressure levels.
+                    \item Cholesterol levels for individuals in their 50s are relatively higher (196 to 239) compared to those in their 40s.
+                \end{itemize}
+            \item \textbf{Young Adults:}
+                \begin{itemize}
+                    \item The youngest individual in this subset is 34 years old with a cholesterol level of 210 and resting blood pressure of 118.
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Resting Blood Pressure (trtbps):}
+        \begin{itemize}
+            \item \textbf{Normal Blood Pressure Range:}
+                \begin{itemize}
+                    \item Individuals with normal or slightly lower resting blood pressure (e.g., 112, 118) have cholesterol levels ranging from 149 to 210.
+                \end{itemize}
+            \item \textbf{Elevated Blood Pressure:}
+                \begin{itemize}
+                    \item Higher cholesterol levels (e.g., 227, 278) are associated with higher resting blood pressure (e.g., 170, 146).
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{K-Means Clustering:}
+        \begin{itemize}
+            \item \textbf{Cluster 0:}
+                \begin{itemize}
+                    \item Contains individuals with moderate cholesterol levels (149 to 210) and resting blood pressure levels (112 to 136).
+                    \item This cluster consists of both younger (34 to 56 years) and middle-aged individuals (52 to 56 years).
+                \end{itemize}
+            \item \textbf{Cluster 2:}
+                \begin{itemize}
+                    \item Contains individuals with higher cholesterol levels (227 to 278) and resting blood pressure levels (130 to 170).
+                    \item This cluster includes both older (57 to 66 years) and middle-aged individuals (47 to 59 years).
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Heart Attack Risk (output):}
+        \begin{itemize}
+            \item \textbf{Higher Risk:}
+                \begin{itemize}
+                    \item Individuals in Cluster 2 with higher cholesterol and blood pressure levels show a higher risk of heart attack (output=1).
+                    \item Middle-aged individuals (47 to 64 years) in Cluster 0 also show a significant risk of heart attack.
+                \end{itemize}
+            \item \textbf{Lower Risk:}
+                \begin{itemize}
+                    \item The youngest individual (34 years) in the dataset shows a lower cholesterol level (210) and normal resting blood pressure (118), indicating a lower risk of heart attack (output=0).
+                \end{itemize}
+        \end{itemize}
+
+\end{enumerate}
+
+\subsubsection*{Detailed Analysis:}
+
+\begin{itemize}
+    \item \textbf{Cluster Analysis:}
+        \begin{itemize}
+            \item \textbf{Cluster 0:}
+                \begin{itemize}
+                    \item Predominantly includes individuals with moderate cholesterol levels (149 to 210) and normal to slightly elevated resting blood pressure levels (112 to 136).
+                    \item This cluster consists of a mix of younger (34 to 56 years) and middle-aged individuals (52 to 56 years).
+                \end{itemize}
+            \item \textbf{Cluster 2:}
+                \begin{itemize}
+                    \item Contains individuals with higher cholesterol levels (227 to 278) and elevated resting blood pressure levels (130 to 170).
+                    \item This cluster includes both older (57 to 66 years) and middle-aged individuals (47 to 59 years).
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Age and Risk Factors:}
+        \begin{itemize}
+            \item Older individuals (57 to 66 years) with higher cholesterol levels (227 to 278) and elevated blood pressure are at significant risk of heart issues, as indicated by Cluster 2.
+            \item Middle-aged individuals (47 to 64 years) with moderate cholesterol levels (149 to 239) also show a higher risk of heart attack, especially those in Cluster 0.
+        \end{itemize}
+
+    \item \textbf{Health Interventions:}
+        \begin{itemize}
+            \item Targeted interventions should focus on managing cholesterol and blood pressure levels across all age groups, particularly for individuals in Cluster 2.
+            \item Regular cardiovascular assessments and lifestyle modifications are crucial for individuals in Cluster 0 with moderate cholesterol and varying blood pressure levels.
+        \end{itemize}
+
+    \item \textbf{Preventive Measures:}
+        \begin{itemize}
+            \item Preventive measures should emphasize cholesterol management and regular blood pressure monitoring.
+            \item Lifestyle changes, including diet and exercise, are essential for reducing heart attack risks in both middle-aged and older individuals identified in Clusters 0 and 2.
+        \end{itemize}
+
+\end{itemize}
+% Continue from the previous LaTeX document
+
+% Page break for clarity
+\newpage
+
+\subsection*{(iii) Insights from the Sorted DataFrame for Features: ['age', 'chol', 'thalachh']}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (20).png} % Adjust width as needed
+\end{center}
+\subsubsection*{Observations and Patterns:}
+
+\begin{enumerate}
+    \item \textbf{Age, Cholesterol, and Maximum Heart Rate:}
+        \begin{itemize}
+            \item \textbf{Older Age with Varying Cholesterol and Heart Rates:}
+                \begin{itemize}
+                    \item The oldest individual in the dataset is 71 years old with a cholesterol level of 149 and a maximum heart rate (thalachh) of 125.
+                    \item Another older individual, aged 68, has a higher cholesterol level of 211 but a lower maximum heart rate of 115.
+                \end{itemize}
+            \item \textbf{Younger Age and High Cholesterol with High Heart Rates:}
+                \begin{itemize}
+                    \item A younger individual aged 37 has a cholesterol level of 215 and a high maximum heart rate of 170.
+                    \item Another individual aged 43 has a cholesterol level of 211 and a high maximum heart rate of 161.
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Middle Age Individuals:}
+        \begin{itemize}
+            \item \textbf{Higher Cholesterol with High Heart Rates:}
+                \begin{itemize}
+                    \item Individuals aged between 47 and 57 show a wide range of cholesterol levels (126 to 240) and high maximum heart rates (161 to 179).
+                    \item For instance, a 57-year-old individual has a cholesterol level of 126 and a high maximum heart rate of 173.
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Resting Blood Pressure (trtbps):}
+        \begin{itemize}
+            \item The resting blood pressure values do not show a consistent pattern across different ages, cholesterol levels, and maximum heart rates.
+        \end{itemize}
+
+    \item \textbf{K-Means Clustering:}
+        \begin{itemize}
+            \item \textbf{Cluster 0:}
+                \begin{itemize}
+                    \item Contains individuals with moderate cholesterol levels (149 to 215) and varying maximum heart rates (115 to 170).
+                    \item This cluster includes younger (37 to 43 years) and middle-aged individuals (57 to 68 years).
+                \end{itemize}
+            \item \textbf{Cluster 2:}
+                \begin{itemize}
+                    \item Contains individuals with higher cholesterol levels (236 to 278) and higher maximum heart rates (152 to 179).
+                    \item This cluster includes middle-aged individuals (47 to 57 years).
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Heart Attack Risk (output):}
+        \begin{itemize}
+            \item \textbf{Higher Risk:}
+                \begin{itemize}
+                    \item Individuals in Cluster 2 with higher cholesterol levels and higher maximum heart rates show a higher risk of heart attack (output=1).
+                    \item Middle-aged individuals (47 to 57 years) in this cluster have high cholesterol and heart rates, indicating significant heart attack risks.
+                \end{itemize}
+            \item \textbf{Lower Risk:}
+                \begin{itemize}
+                    \item Younger individuals (37 to 43 years) in Cluster 0 with moderate cholesterol and varying heart rates show varied risks but tend to have higher heart attack risks (output=1).
+                \end{itemize}
+        \end{itemize}
+
+\end{enumerate}
+
+\subsubsection*{Detailed Analysis:}
+
+\begin{itemize}
+    \item \textbf{Cluster Analysis:}
+        \begin{itemize}
+            \item \textbf{Cluster 0 (Moderate Cholesterol and Varying Heart Rates):}
+                \begin{itemize}
+                    \item Individuals are generally younger or middle-aged with moderate cholesterol levels and varying maximum heart rates.
+                    \item This cluster has varied heart attack risks but shows a tendency for higher risks among younger individuals.
+                \end{itemize}
+            \item \textbf{Cluster 2 (High Cholesterol and High Heart Rates):}
+                \begin{itemize}
+                    \item Individuals are generally middle-aged with higher cholesterol levels and higher maximum heart rates.
+                    \item This cluster shows a higher risk of heart attack, indicating the need for targeted interventions.
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Health Interventions:}
+        \begin{itemize}
+            \item \textbf{Cluster 0:}
+                \begin{itemize}
+                    \item Preventive measures can focus on maintaining cholesterol and managing heart rates, especially for younger individuals.
+                    \item Regular monitoring and lifestyle modifications are essential to mitigate heart attack risks.
+                \end{itemize}
+            \item \textbf{Cluster 2:}
+                \begin{itemize}
+                    \item Aggressive management of cholesterol and heart rates is crucial for individuals in this cluster.
+                    \item Comprehensive cardiovascular assessments and interventions are necessary to reduce heart attack risks.
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Preventive Measures:}
+        \begin{itemize}
+            \item \textbf{Diet and Exercise:}
+                \begin{itemize}
+                    \item Encouraging a healthy diet and regular exercise can help maintain cholesterol and heart rates within normal ranges.
+                \end{itemize}
+            \item \textbf{Regular Check-ups:}
+                \begin{itemize}
+                    \item Regular health check-ups and screenings are vital, especially for individuals in higher risk clusters.
+                \end{itemize}
+            \item \textbf{Medication Management:}
+                \begin{itemize}
+                    \item Appropriate medication management for cholesterol and heart rates can significantly reduce heart attack risks.
+                \end{itemize}
+        \end{itemize}
+
+\end{itemize}
+
+% Page break for clarity
+\newpage
+
+% Continue with the Decision Tree Classification Algorithms section
+\subsection*{3.3 Decision Tree Classification Algorithm}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (21).png} % Adjust width as needed
+\end{center}
+\subsubsection*{Cross-Validation Scores:}
+
+\begin{itemize}
+    \item The model's cross-validation accuracy scores vary from 0.70 to 0.82, with a mean CV accuracy of 0.7621. This indicates that the model generalizes reasonably well across different subsets of the data.
+\end{itemize}
+
+\subsubsection*{Training Accuracy:}
+
+\begin{itemize}
+    \item The training accuracy is 0.8845, which is significantly higher than the mean CV accuracy. This suggests that the model fits well to the training data but might be slightly overfitting.
+\end{itemize}
+
+\subsubsection*{Test Accuracy:}
+
+\begin{itemize}
+    \item The test accuracy is 0.8361, which is closer to the cross-validation scores. This indicates good performance on unseen data and suggests the model is reasonably well-calibrated.
+\end{itemize}
+
+\subsubsection*{Precision, Recall, and F1-Score:}
+
+\begin{itemize}
+    \item Both precision and recall for classes 0 and 1 are high, around 0.83-0.84. The F1-scores are also consistent, indicating balanced performance across both classes.
+    \item The weighted averages for precision, recall, and F1-score all align with the overall accuracy, reinforcing that the model performs consistently across classes.
+\end{itemize}
+
+\subsubsection*{Feature Importance:}
+
+\begin{itemize}
+    \item \textbf{Most Important Features:}
+        \begin{itemize}
+            \item \textbf{Chest Pain Type (cp):} The most significant feature with an importance score of 0.3600. This implies that the type of chest pain is a critical factor in predicting heart attack risk.
+            \item \textbf{Age (age):} The second most important feature with an importance score of 0.1175. Age is a well-known risk factor for heart disease.
+            \item \textbf{Thalassemia (thall) and Number of Major Vessels (caa):} Both features have similar importance scores (around 0.11), indicating that they significantly contribute to the model’s predictions.
+        \end{itemize}
+    \item \textbf{Moderately Important Features:}
+        \begin{itemize}
+            \item \textbf{Maximum Heart Rate Achieved (thalachh):} This feature has an importance score of 0.0982, suggesting that the maximum heart rate during exercise is an important predictor.
+            \item \textbf{ST Depression Induced by Exercise (oldpeak):} With an importance score of 0.0677, this feature also contributes significantly to the model.
+        \end{itemize}
+    \item \textbf{Least Important Features:}
+        \begin{itemize}
+            \item \textbf{Sex (sex):} Although important with a score of 0.0604, it is less influential compared to the top features.
+            \item \textbf{Cholesterol (chol), Exercise Induced Angina (exng), and Slope of the Peak Exercise ST Segment (slp):} These features have lower importance scores (ranging from 0.0125 to 0.0361).
+        \end{itemize}
+    \item \textbf{Zero Importance Features:}
+        \begin{itemize}
+            \item \textbf{Resting Blood Pressure (trtbps), Fasting Blood Sugar (fbs), and Resting Electrocardiographic Results (restecg):} These features have zero importance, indicating that they do not contribute to the model's predictive power.
+        \end{itemize}
+\end{itemize}
+
+% Page break for clarity
+\newpage
+
+% Continue with the Logistic Regression Model section
+\subsection*{3.4 Logistic Regression Model}
+\
+\subsubsection*{Model Performance Metrics:}
+
+\begin{itemize}
+    \item \textbf{Accuracy:} 0.8681
+        \begin{itemize}
+            \item This indicates that the model correctly predicts 86.81% of the cases in the test set.
+        \end{itemize}
+    \item \textbf{Precision:}
+        \begin{itemize}
+            \item \textbf{Class 0 (Less chance of heart attack):} 0.90
+            \item \textbf{Class 1 (More chance of heart attack):} 0.84
+            \item Precision measures the proportion of true positives (correctly predicted cases) among all positive predictions. For class 0, it correctly identifies 90% of the patients who have less chance of a heart attack, while for class 1, it correctly identifies 84% of those who have more chance.
+        \end{itemize}
+    \item \textbf{Recall (Sensitivity):}
+        \begin{itemize}
+            \item \textbf{Class 0:} 0.82
+            \item \textbf{Class 1:} 0.91
+            \item Recall measures the proportion of true positives that were correctly identified out of all actual positives. For class 0, 82% of patients with less chance of a heart attack were correctly identified, while for class 1, 91% of those with more chance were correctly identified.
+        \end{itemize}
+    \item \textbf{F1 Score:}
+        \begin{itemize}
+            \item \textbf{Weighted Average:} 0.8776
+            \item The F1 score is the harmonic mean of precision and recall, providing a single metric to evaluate a model's performance. A higher F1 score indicates better overall performance in terms of both precision and recall.
+        \end{itemize}
+    \item \textbf{ROC-AUC Score:} 0.8665
+        \begin{itemize}
+            \item The ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) score is a measure of the model's ability to distinguish between classes. An AUC score close to 1 suggests a good separation between classes, with higher values indicating better performance.
+        \end{itemize}
+    \item \textbf{Overall Model Performance:}
+        \begin{itemize}
+            \item The logistic regression model achieves a high accuracy and balanced precision and recall scores for both classes, indicating robust predictive capability across the dataset.
+        \end{itemize}
+    \item \textbf{Class-Specific Insights:}
+        \begin{itemize}
+            \item Class 1 (more chance of heart attack) shows slightly higher recall than precision, indicating that the model is better at correctly identifying individuals at risk of a heart attack compared to those who are not at risk.
+            \item Class 0 (less chance of heart attack) shows higher precision, meaning that when the model predicts someone as having less chance of a heart attack, it is usually correct.
+        \end{itemize}
+\end{itemize}
+
+% Page break for clarity
+\newpage
+
+% Continue with the Regression Algorithms section
+\subsection*{3.5 Regression Algorithms: Linear Regression and Decision Tree Regressor}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/Saved Pictures/download (22).png} % Adjust width as needed
+\end{center}
+\subsubsection*{Performance Insights:}
+
+\begin{itemize}
+    \item \textbf{Linear Regression}
+        \begin{itemize}
+            \item \textbf{Mean Squared Error (MSE):} 0.1248
+                \begin{itemize}
+                    \item MSE measures the average squared difference between the actual and predicted values. A lower MSE indicates better model performance. Here, the MSE of 0.1248 suggests that the model's predictions are reasonably close to the actual values.
+                \end{itemize}
+            \item \textbf{R-squared (R²):} 0.4994
+                \begin{itemize}
+                    \item R² represents the proportion of the variance in the dependent variable that is predictable from the independent variables. An R² value of 0.4994 indicates that approximately 49.94% of the variance in the target variable is explained by the model. This suggests a moderate level of explanatory power.
+                \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Decision Tree Regressor}
+        \begin{itemize}
+            \item \textbf{Mean Squared Error (MSE):} 0.2131
+                \begin{itemize}
+                    \item The MSE for the Decision Tree Regressor is higher at 0.2131, indicating that its predictions are less accurate compared to the Linear Regression model.
+                \end{itemize}
+            \item \textbf{R-squared (R²):} 0.1455
+                \begin{itemize}
+                    \item The R² value of 0.1455 indicates that only 14.55% of the variance in the target variable is explained by the Decision Tree Regressor. This suggests a lower explanatory power compared to the Linear Regression model.
+                \end{itemize}
+        \end{itemize}
+
+\end{itemize}
+
+\subsubsection*{Insights and Comparisons:}
+
+\begin{itemize}
+    \item \textbf{Prediction Accuracy:}
+        \begin{itemize}
+            \item The Linear Regression model has a lower MSE (0.1248) compared to the Decision Tree Regressor (0.2131). This means that Linear Regression provides more accurate predictions in terms of mean squared error.
+        \end{itemize}
+    \item \textbf{Explanatory Power:}
+        \begin{itemize}
+            \item The R² value for Linear Regression (0.4994) is significantly higher than that of the Decision Tree Regressor (0.1455). This indicates that Linear Regression explains a larger portion of the variance in the target variable compared to the Decision Tree Regressor.
+        \end{itemize}
+    \item \textbf{Model Complexity:}
+        \begin{itemize}
+            \item Linear Regression is a simple and interpretable model, which often works well for linear relationships between the features and the target variable. The lower MSE and higher R² suggest that in this case, a linear relationship might be more appropriate for your data.
+            \item Decision Trees can capture non-linear relationships and interactions between features. However, in this case, it appears that the Decision Tree model is overfitting or not capturing the underlying pattern as effectively as the Linear Regression model.
+        \end{itemize}
+    \item \textbf{Choosing the Right Model:}
+        \begin{itemize}
+            \item Based on the MSE and R² values, Linear Regression seems to be the better model for this specific dataset and problem. It provides more accurate predictions and explains a greater portion of the variance in the target variable.
+            \item However, if the data has complex non-linear relationships, it might be worth exploring other non-linear models or tuning the hyperparameters of the Decision Tree Regressor to improve its performance.
+        \end{itemize}
+\end{itemize}
+
+\subsubsection*{Conclusion:}
+
+\begin{itemize}
+    \item The Linear Regression model outperforms the Decision Tree Regressor in terms of both accuracy (lower MSE) and explanatory power (higher R²) for this dataset. It is likely a more suitable model for predicting the target variable given the provided metrics. However, it's important to consider the nature of the data and potentially explore other models or techniques to ensure the best possible predictive performance.
+\end{itemize}
+
+\subsection*{FUTURE WORK:} 
+\begin{itemize}
+    \item Requires the Linear Regression and Decision tree regressor to be more accurate
+\item Requires a massive Dataset for better accuracy of machine learning algorithum
+\end{itemize}
+% End of the document
+
+\end{document}
+
